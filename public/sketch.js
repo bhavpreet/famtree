@@ -56,7 +56,7 @@ let sketch = function(p) {
 
     p.draw = function() {
 
-        p.background(220);
+        // p.background(220);
 
         // showing tree array
         for ( var i = 0; i < tree.length; i++) {
@@ -97,13 +97,6 @@ function drawEvenOdd(bnTree, level, model) {
 }
 
 function drawBranch(model) {    // mouseClick
-    // for (var i = tree.length-1; i >= 0; i--) {
-    //     if (!tree[i].finished) {
-    //         tree.push(tree[i].branchN(gp)); //add an array to the tree by .push
-    //         tree.push(tree[i].branchB(gp));
-    //     }
-    //     tree[i].finished = true;
-    // }
     // console.log("Model = ", model.relatedTo);
     if (model.relatedTo == "Natasha") {
         var maxElems = Math.pow(2, levelN);
@@ -119,17 +112,11 @@ function drawBranch(model) {    // mouseClick
             levelB += 1
         }
         drawEvenOdd(treeB, levelB, model);
-    }
-    count++;
+    }    count++;
 
-    if (count === 4) {
-        for ( var i = 0; i< tree.length; i++) {
-            if (!tree[i].finished){
-                var leaf = tree[i].end.copy(); //grab end point of branch for the leaf
-                leaves.push(leaf);
-            }
-        }
-    }
+    var leaf = tree[tree.length-1].end.copy(); //grab end point of branch for the leaf
+    leaves.push(leaf);
+
 }
 
 // Call Draw branch for each element in the table

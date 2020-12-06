@@ -147,7 +147,7 @@ submitRSVP model =
             html <|
                 Button.outlined
                     (Button.config |> Button.setOnClick Submit)
-                    "Submit"
+                    "Save"
 
     else
         el [] none

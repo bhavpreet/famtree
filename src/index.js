@@ -7,7 +7,7 @@ var app = Elm.Main.init({
 });
 
 app.ports.drawBranch.subscribe(function(model) {
-  drawBranch(model);
+  drawBranch(model, true);
 });
 
 // If you want your app to work offline and load faster, you can change
