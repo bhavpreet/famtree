@@ -11,6 +11,10 @@ var tree = [];
 var leaves = [];
 var count = 0;
 var table;
+var treeB = [];
+var levelB = 0;
+var treeN = [];
+var levelN = 0;
 
 let sketch = function(p) {
     gp = p;
@@ -27,7 +31,6 @@ let sketch = function(p) {
         table = p.loadTable('https://docs.google.com/spreadsheets/d/1ugOJeRIHwUR36fp1-MawZqqw1_X29q4nrLiKM_gu9FI/gviz/tq\?tqx\=out:csv\&sheet\=Sheet1', 'csv', 'header');
     }
 
-
     p.setup = function() {
         p.createCanvas(p.windowWidth, 400);
         // p.createCanvas(400, 400);
@@ -39,38 +42,17 @@ let sketch = function(p) {
         var a = p.createVector (p.width/2, p.height); //startpoint
         var b = p.createVector (p.width/2, p.height-100); //endpoint
         var root = new Branch (a, b); //starting first branch line |
-
         tree[0] = root; //storing the root in the tree array
+        tree.push(tree[0].branchL(p))
+        treeN.push(tree[tree.length-1]);
+        tree.push(tree[0].branchR(p))
+        treeB.push(tree[tree.length-1]);
 
         //var newBranch = root.branch(); //new branch came out of the root
         //tree[1] = newBranch;
         //console.log(tree);
         drawTable(table);
     }
-
-    // p.mouseClicked = function() {
-    //     for (var i = tree.length-1; i >= 0; i--) {
-    //         if (!tree[i].finished) {
-    //             tree.push(tree[i].branchN(gp)); //add an array to the tree by .push
-    //             tree.push(tree[i].branchB(gp));
-    //         }
-    //         tree[i].finished = true;
-    //     }
-    //     count++;
-
-    //     if (count === 4) {
-    //         for ( var i = 0; i< tree.length; i++) {
-    //             if (!tree[i].finished){
-    //                 var leaf = tree[i].end.copy(); //grab end point of branch for the leaf
-    //                 leaves.push(leaf);
-    //             }
-    //         }
-    //     }
-    // }
-
-    // tree[1] = tree[0].branchN(); //instead of root.branchA, since tree[0] global
-    // tree[2] = tree[0].branchB();
-
 
     p.draw = function() {
 
@@ -96,13 +78,47 @@ let sketch = function(p) {
 
 new p5(sketch, 'sketchCanvas');
 
+function drawEvenOdd(bnTree, level, model) {
+    if ((bnTree.length - (2 * level + 1)) % 2 == 0) {
+        // console.log("even");
+        parent = (bnTree.length - 1) / 2;
+        // console.log("parent: ", parent);
+        // console.log("parent node: ", bnTree[parent]);
+        tree.push(bnTree[parent].branchL(gp));
+    } else {
+        // console.log("odd");
+        parent = (bnTree.length - 2) / 2;
+        // console.log("parent: ", parent);
+        // console.log("parent node: ", bnTree[parent]);
+        tree.push(bnTree[parent].branchR(gp));
+    }
+    bnTree.push(tree[tree.length-1]);
+    tree[tree.length-1].model = model;
+}
+
 function drawBranch(model) {    // mouseClick
-    for (var i = tree.length-1; i >= 0; i--) {
-        if (!tree[i].finished) {
-            tree.push(tree[i].branchN(gp)); //add an array to the tree by .push
-            tree.push(tree[i].branchB(gp));
+    // for (var i = tree.length-1; i >= 0; i--) {
+    //     if (!tree[i].finished) {
+    //         tree.push(tree[i].branchN(gp)); //add an array to the tree by .push
+    //         tree.push(tree[i].branchB(gp));
+    //     }
+    //     tree[i].finished = true;
+    // }
+    // console.log("Model = ", model.relatedTo);
+    if (model.relatedTo == "Natasha") {
+        var maxElems = Math.pow(2, levelN);
+        // console.log("maxElems = ", maxElems, "levelN = ", levelN)
+        if (treeN.length - (2 * levelN + 1) == maxElems) {
+            levelN += 1
         }
-        tree[i].finished = true;
+        drawEvenOdd(treeN, levelN, model);
+    } else if (model.relatedTo == "Bhavpreet") {
+        var maxElems = Math.pow(2, levelN);
+        // console.log("maxElems = ", maxElems, "levelN = ", levelN)
+        if (treeB.length - (2 * levelB + 1) == maxElems) {
+            levelB += 1
+        }
+        drawEvenOdd(treeB, levelB, model);
     }
     count++;
 
@@ -118,12 +134,12 @@ function drawBranch(model) {    // mouseClick
 
 // Call Draw branch for each element in the table
 function drawTable(table) {
-    console.log("table: ", table);
+    // console.log("table: ", table);
     for (let r=0; r < table.getRowCount(); r++) {
         model = { "name" : table.getString(r, 0),
                   "relation" : table.getString(r,1),
                   "age" : table.getNum(r,2),
-                  "realtedTo" : table.getString(r,3),
+                  "relatedTo" : table.getString(r,3),
                   "rsvp" : table.getString(r,4)
                 };
         drawBranch(model);
