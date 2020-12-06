@@ -21,9 +21,38 @@ var leaves = [];
 
 var count = 0;
 
+// Save
+function saveToFamTree(name, relation) {
+  const Http = new XMLHttpRequest();
+  const url = 'https://script.google.com/macros/s/AKfycbzfGamhVtRvxDPyiqf9yofRX-GdJYGd6HzSx6sITtlgmQv0aJ0/exec?'
+  Http.open("GET", url + "col1=" + name + "&col2=" + relation);
+  Http.send();
+
+  Http.onreadystatechange = (e) => {
+    console.log(Http.responseText)
+  }
+}
+
+let table;
+
+function preload() {
+  //my table is comma separated value "csv"
+  //and has a header specifying the columns labels
+  table = loadTable('https://docs.google.com/spreadsheets/d/1ugOJeRIHwUR36fp1-MawZqqw1_X29q4nrLiKM_gu9FI/gviz/tq\?tqx\=out:csv\&sheet\=Sheet1', 'csv', 'header');
+  //the file can be remote
+  //table = loadTable("http://p5js.org/reference/assets/mammals.csv",
+  //                  "csv", "header");
+}
+
+
 function setup() {
   createCanvas(400, 400);
   textSize(23);
+
+  for (let r=0; r < table.getRowCount(); r++) {
+    const name = table.getString(r, 0);
+    console.log(name);
+  }
 
   // vector here stores the start point and end point
   // a vector has magnitude and direction
