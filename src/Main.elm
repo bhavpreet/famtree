@@ -8,6 +8,7 @@ import Input exposing (..)
 import Model exposing (..)
 import Sheets exposing (..)
 import Sketch exposing (..)
+import Task
 
 
 init : ( Model, Cmd Msg )
@@ -96,23 +97,25 @@ update msg model =
             if model.showRelationText == True then
                 ( { model
                     | awaitResp = True
-                    , relationsList =
-                        model.relationsList ++ [ toStr model.relation ]
                   }
                 , Cmd.batch
-                    [ writeToSheet model
-                    , writeNewRelationToSheet <| toStr model.relation
+                    [ Task.attempt SubmitRet <| writeToSheet model
+                    , Task.attempt SubmitRelationRet <|
+                        writeNewRelationToSheet <|
+                            toStr model.relation
                     ]
                 )
 
             else
-                ( { model | awaitResp = True }, writeToSheet model )
+                ( { model | awaitResp = True }
+                , Task.attempt SubmitRet <| writeToSheet model
+                )
 
         SubmitRet resp ->
-            -- let
-            --     _ =
-            --         Debug.log "Got Return : " resp
-            -- in
+            let
+                _ =
+                    Debug.log "Got Return : " resp
+            in
             case resp of
                 Ok _ ->
                     ( { model | allDone = True, awaitResp = False }
@@ -125,11 +128,14 @@ update msg model =
                     )
 
         SubmitRelationRet resp ->
-            -- let
-            --     _ =
-            --         Debug.log "Relation save Got Return : " resp
-            -- in
-            ( { model | tryAgain = True, awaitResp = False }
+            let
+                _ =
+                    Debug.log "Relation save Got Return : " resp
+            in
+            ( { model
+                | relationsList =
+                    model.relationsList ++ [ toStr model.relation ]
+              }
             , Cmd.none
             )
 

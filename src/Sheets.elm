@@ -2,13 +2,32 @@ module Sheets exposing (ageToStr, fetchRelations, toInt, toStr, writeToSheet, wr
 
 import Http as Http
 import Model exposing (..)
+import Task exposing (Task)
 
 
 sheetWriteURI =
     "https://script.google.com/macros/s/AKfycbzfGamhVtRvxDPyiqf9yofRX-GdJYGd6HzSx6sITtlgmQv0aJ0/exec"
 
+httpRespResolver : Http.Response String -> Result Http.Error String
+httpRespResolver resp =
+    case resp of
+        Http.BadUrl_ url_ ->
+            Err (Http.BadUrl url_)
 
-writeToSheet : Model -> Cmd Msg
+        Http.Timeout_ ->
+            Err Http.Timeout
+
+        Http.NetworkError_ ->
+            Err Http.NetworkError
+
+        Http.BadStatus_ metadata body ->
+            Err (Http.BadStatus metadata.statusCode)
+
+        Http.GoodStatus_ metadata body ->
+            Ok body
+
+
+writeToSheet : Model -> Task Http.Error String
 writeToSheet model =
     let
         url =
@@ -27,12 +46,16 @@ writeToSheet model =
         -- _ =
         --     Debug.log "URL is " url
     in
-    Http.get
+    Http.task
         { url = url
-        , expect = Http.expectString SubmitRet
+        , method = "GET"
+        , resolver = Http.stringResolver httpRespResolver
+        , body = Http.emptyBody
+        , headers = []
+        , timeout = Nothing
         }
 
-writeNewRelationToSheet: String -> Cmd Msg
+writeNewRelationToSheet: String -> Task Http.Error String
 writeNewRelationToSheet relation =
      let
         url =
@@ -44,9 +67,13 @@ writeNewRelationToSheet relation =
         -- _ =
         --     Debug.log "URL is " url
     in
-    Http.get
+    Http.task
         { url = url
-        , expect = Http.expectString SubmitRelationRet
+        , method = "GET"
+        , resolver = Http.stringResolver httpRespResolver
+        , body = Http.emptyBody
+        , headers = []
+        , timeout = Nothing
         }
 
 fetchRelations : Cmd Msg

@@ -3,7 +3,8 @@ module Input exposing (..)
 import Element exposing (..)
 import Html as Html
 import Material.Button as Button
-import Material.CircularProgress as CircularProgress
+-- import Material.CircularProgress as CircularProgress
+-- import Material.LinearProgress as LinearProgress
 import Material.Select as Select
 import Material.Select.Item as SelectItem
 import Material.TextField as TextField
@@ -158,7 +159,7 @@ submitRSVP model =
                 True
     in
     if model.awaitResp == True then
-        inputAwaitResp
+        el [ centerX ] inputAwaitResp
 
     else if rsvpFilled model == True then
         el [ centerX ] <|
@@ -223,10 +224,21 @@ backButton strVal msg =
 
 inputAwaitResp : Element Msg
 inputAwaitResp =
-    el [ width fill, height fill, centerX ] <|
-        html <|
-            CircularProgress.indeterminate
-                (CircularProgress.config
-                    |> CircularProgress.setSize CircularProgress.large
-                    |> CircularProgress.setClosed True
-                )
+    text "Please wait.."
+
+
+
+-- html <|
+--     LinearProgress.indeterminate LinearProgress.config
+-- el [] (text "foobar")
+-- el [ width fill, height fill, centerX ] <|
+--     html <|
+--         CircularProgress.indeterminate
+--             (CircularProgress.config
+--                 |> CircularProgress.setSize CircularProgress.small
+--             )
+-- CircularProgress.indeterminate
+--     (CircularProgress.config
+--         |> CircularProgress.setSize CircularProgress.large
+--         |> CircularProgress.setClosed False
+--     )
