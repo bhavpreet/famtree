@@ -15,7 +15,7 @@ function Branch (begin, end) {
 		p.line (this.begin.x, this.begin.y, this.end.x, this.end.y);
 	}
 
-	this.branchN = function (p) {
+	this.branchR = function (p) {
 		//taking the vector angle, but first giving its direction
 		var dir = p5.Vector.sub(this.end, this.begin);
 		//p5 vector direction has an inbuilt angle
@@ -31,7 +31,7 @@ function Branch (begin, end) {
 		return b;
 	};
 
-	this.branchB = function (p) {
+	this.branchL = function (p) {
 		var dir = p5.Vector.sub(this.end, this.begin);
 		dir.rotate(-p.PI/4);
 		dir.mult(0.67);

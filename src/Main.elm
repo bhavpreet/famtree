@@ -101,6 +101,7 @@ update msg model =
                 , age = Nothing
                 , relation = Nothing
                 , nar = False
+
                 -- , relatedTo = Nothing
                 , rsvp = Nothing
                 , allDone = False
@@ -125,10 +126,9 @@ view model =
             [ height fill
             , centerX
             , centerY
+            -- , behindContent <| sketchCanvas
             ]
             [ sketchCanvas
-
-            -- , el [ centerX ] (text <| relationToStr model.relation)
             , viewLogic model
             ]
 
