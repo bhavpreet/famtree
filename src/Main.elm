@@ -112,10 +112,10 @@ update msg model =
                 )
 
         SubmitRet resp ->
-            let
-                _ =
-                    Debug.log "Got Return : " resp
-            in
+            -- let
+            --     _ =
+            --         Debug.log "Got Return : " resp
+            -- in
             case resp of
                 Ok _ ->
                     ( { model | allDone = True, awaitResp = False }
@@ -128,10 +128,10 @@ update msg model =
                     )
 
         SubmitRelationRet resp ->
-            let
-                _ =
-                    Debug.log "Relation save Got Return : " resp
-            in
+            -- let
+            --     _ =
+            --         Debug.log "Relation save Got Return : " resp
+            -- in
             ( { model
                 | relationsList =
                     model.relationsList ++ [ toStr model.relation ]
