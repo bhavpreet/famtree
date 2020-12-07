@@ -13,7 +13,7 @@ relatedToList =
     ]
 
 
-relationsList =
+defaultRelationsList =
     [ "Uncle"
     , "Aunt"
     , "Cousin"
@@ -43,6 +43,8 @@ type alias Model =
     , awaitResp : Bool -- Flag to wait on submit status
     , tryAgain : Bool -- marker for error, have to try submit again
     , allDone : Bool -- Flag to say all values are set and submitted
+    , relationsList: List String
+    , showRelationText: Bool
     }
 
 
@@ -58,4 +60,6 @@ type Msg
     | NextNAR
     | Submit
     | SubmitRet (Result Http.Error String)
+    | SubmitRelationRet (Result Http.Error String)
     | AddMore
+    | FetchRelations (Result Http.Error String)

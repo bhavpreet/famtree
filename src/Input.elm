@@ -68,29 +68,47 @@ inputNameAgeRelation model =
                         )
             ]
         , el [ padding 3 ] none
-        , el [ centerX ] <|
+        , el [ centerX ] <| relationTextOrSelect model
+        , el [ padding 5 ] none
+        , submitNAR model
+        ]
+
+
+relationTextOrSelect : Model -> Element Msg
+relationTextOrSelect model =
+    if model.showRelationText == True then
+        el [ width fill ] <|
             html <|
-                Select.filled
-                    (Select.config
-                        |> Select.setLabel (Just "Relation")
-                        |> Select.setSelected model.relation
-                        |> Select.setOnChange UpdateRelation
+                TextField.filled
+                    (TextField.config
+                        |> TextField.setLabel (Just "Relation")
+                        |> TextField.setValue (Just <| toStr model.relation)
+                        |> TextField.setOnInput UpdateRelation
                     )
-                    (SelectItem.selectItem
-                        (SelectItem.config { value = "" })
-                        [ Html.text "" ]
-                    )
-                <|
-                    List.map
+
+    else
+        html <|
+            Select.filled
+                (Select.config
+                    |> Select.setLabel (Just "Relation")
+                    |> Select.setSelected model.relation
+                    |> Select.setOnChange UpdateRelation
+                )
+                (SelectItem.selectItem
+                    (SelectItem.config { value = "" })
+                    [ Html.text "" ]
+                )
+            <|
+                SelectItem.selectItem
+                    (SelectItem.config { value = "Other" })
+                    [ Html.text "Other" ]
+                    :: List.map
                         (\x ->
                             SelectItem.selectItem
                                 (SelectItem.config { value = x })
                                 [ Html.text x ]
                         )
-                        relationsList
-        , el [ padding 5 ] none
-        , submitNAR model
-        ]
+                        model.relationsList
 
 
 inputRSVP : Model -> Element Msg

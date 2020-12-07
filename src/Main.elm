@@ -1,6 +1,7 @@
 module Main exposing (..)
 
 import Browser
+import Csv as Csv
 import Element exposing (..)
 import Html exposing (Html)
 import Input exposing (..)
@@ -20,8 +21,10 @@ init =
       , allDone = False
       , awaitResp = False
       , tryAgain = False
+      , relationsList = defaultRelationsList
+      , showRelationText = False
       }
-    , Cmd.none
+    , Cmd.batch [ fetchRelations ]
     )
 
 
@@ -43,9 +46,19 @@ update msg model =
             )
 
         UpdateRelation relation ->
-            ( { model | relation = Just relation }
-            , Cmd.none
-            )
+            case relation of
+                "Other" ->
+                    ( { model
+                        | showRelationText = True
+                        , relation = Nothing
+                      }
+                    , Cmd.none
+                    )
+
+                _ ->
+                    ( { model | relation = Just relation }
+                    , Cmd.none
+                    )
 
         UpdateRelatedTo rTo ->
             if List.member rTo relatedToList == True then
@@ -66,7 +79,10 @@ update msg model =
                 ( model, Cmd.none )
 
         BackToInputRelatedTo ->
-            ( { model | relatedTo = Nothing }
+            ( { model
+                | relatedTo = Nothing
+                , showRelationText = False
+              }
             , Cmd.none
             )
 
@@ -77,7 +93,20 @@ update msg model =
             ( { model | nar = True }, Cmd.none )
 
         Submit ->
-            ( { model | awaitResp = True }, writeToSheet model )
+            if model.showRelationText == True then
+                ( { model
+                    | awaitResp = True
+                    , relationsList =
+                        model.relationsList ++ [ toStr model.relation ]
+                  }
+                , Cmd.batch
+                    [ writeToSheet model
+                    , writeNewRelationToSheet <| toStr model.relation
+                    ]
+                )
+
+            else
+                ( { model | awaitResp = True }, writeToSheet model )
 
         SubmitRet resp ->
             -- let
@@ -95,6 +124,15 @@ update msg model =
                     , Cmd.none
                     )
 
+        SubmitRelationRet resp ->
+            -- let
+            --     _ =
+            --         Debug.log "Relation save Got Return : " resp
+            -- in
+            ( { model | tryAgain = True, awaitResp = False }
+            , Cmd.none
+            )
+
         AddMore ->
             ( { model
                 | name = ""
@@ -107,9 +145,45 @@ update msg model =
                 , allDone = False
                 , awaitResp = False
                 , tryAgain = False
+                , showRelationText = False
               }
             , Cmd.none
             )
+
+        FetchRelations resp ->
+            case resp of
+                Ok csvDataRaw ->
+                    let
+                        decodeRelations : String -> Csv.Csv
+                        decodeRelations input =
+                            case Csv.parse input of
+                                Ok res ->
+                                    res
+
+                                Err _ ->
+                                    { headers = []
+                                    , records = []
+                                    }
+
+                        csvToList : Csv.Csv -> List String
+                        csvToList csv =
+                            List.map (\x -> toStr <| List.head x) csv.records
+
+                        records : List String
+                        records =
+                            decodeRelations csvDataRaw |> csvToList
+
+                        -- _ =
+                        --     Debug.log "records = " records
+                    in
+                    ( { model
+                        | relationsList = records
+                      }
+                    , Cmd.none
+                    )
+
+                Err _ ->
+                    ( model, Cmd.none )
 
         NoOp ->
             ( model, Cmd.none )
@@ -126,6 +200,7 @@ view model =
             [ height fill
             , centerX
             , centerY
+
             -- , behindContent <| sketchCanvas
             ]
             [ sketchCanvas
