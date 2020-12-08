@@ -16,6 +16,7 @@ var levelB = 0;
 var treeN = [];
 var levelN = 0;
 
+
 let sketch = function(p) {
     gp = p;
     //level of interaction : keypress n and b
@@ -56,7 +57,7 @@ let sketch = function(p) {
 
     p.draw = function() {
 
-        // p.background(220);
+        p.background(220);
 
         // showing tree array
         for ( var i = 0; i < tree.length; i++) {
@@ -69,16 +70,36 @@ let sketch = function(p) {
         //root.show();
 
         for ( var i = 0; i < leaves.length; i++) {
-            p.fill(245, 156, 67);
-            p.ellipse (leaves[i].x, leaves[i].y, 8,8);
+            if (leaves[i].entry.isNew == true) {
+                p.stroke(0);
+                p.fill(90, 0, 230);
+            } else {
+                p.noStroke();
+                p.fill(245, 156, 67);
+            }
+            //p.stroke(0);
+            p.ellipse (leaves[i].x, leaves[i].y, 8,8); //ellipse diam
+
             //leaves[i].show();
+            let d = p.dist(p.mouseX, p.mouseY, leaves[i].x, leaves[i].y);
+            if (d < 5 || leaves[i].entry.isNew == true) {
+                p.fill(0);
+                p.textAlign(p.CENTER);
+                p.textSize(14);
+                //p.noStroke();
+                p.text(leaves[i].entry.name, leaves[i].x, leaves[i].y + 8 - 20);
+                p.fill(234,98,0);
+                p.stroke(0);
+                p.ellipse(leaves[i].x, leaves[i].y, 8,8);
+            }
+            
         }
     }
 };
 
 new p5(sketch, 'sketchCanvas');
 
-function drawEvenOdd(bnTree, level, model) {
+function drawEvenOdd(bnTree, level, entry) {
     if ((bnTree.length - (2 * level + 1)) % 2 == 0) {
         // console.log("even");
         parent = (bnTree.length - 1) / 2;
@@ -93,50 +114,52 @@ function drawEvenOdd(bnTree, level, model) {
         tree.push(bnTree[parent].branchR(gp));
     }
     bnTree.push(tree[tree.length-1]);
-    tree[tree.length-1].model = model;
+    tree[tree.length-1].entry = entry;
 }
 
-function drawBranch(model) {    // mouseClick
-    // console.log("Model = ", model.relatedTo);
-    if (model.relatedTo == "Natasha") {
+function drawBranch(entry, isNew) {    // mouseClick
+    // console.log("entry = ", entry.relatedTo);
+    if (entry.relatedTo == "Natasha") {
         var maxElems = Math.pow(2, levelN);
         // console.log("maxElems = ", maxElems, "levelN = ", levelN)
         if (treeN.length - (2 * levelN + 1) == maxElems) {
             levelN += 1
         }
-        drawEvenOdd(treeN, levelN, model);
-    } else if (model.relatedTo == "Bhavpreet") {
+        drawEvenOdd(treeN, levelN, entry);
+    } else if (entry.relatedTo == "Bhavpreet") {
         var maxElems = Math.pow(2, levelN);
         // console.log("maxElems = ", maxElems, "levelN = ", levelN)
         if (treeB.length - (2 * levelB + 1) == maxElems) {
             levelB += 1
         }
-        drawEvenOdd(treeB, levelB, model);
-    }    count++;
-
-    var leaf = tree[tree.length-1].end.copy(); //grab end point of branch for the leaf
+        drawEvenOdd(treeB, levelB, entry);
+    }
+    var leaf = tree[tree.length-1].end.copy(); 
+    entry.isNew = isNew;
+    leaf.entry = entry;
     leaves.push(leaf);
 
+    //color code name with alpha, rsvp
+    //age 
+    //add wedding info
+    //new entry- new color, details- name
+    
 }
+
 
 // Call Draw branch for each element in the table
 function drawTable(table) {
     // console.log("table: ", table);
     for (let r=0; r < table.getRowCount(); r++) {
-        model = { "name" : table.getString(r, 0),
+        entry = { "name" : table.getString(r, 0),
                   "relation" : table.getString(r,1),
                   "age" : table.getNum(r,2),
                   "relatedTo" : table.getString(r,3),
                   "rsvp" : table.getString(r,4)
                 };
-        drawBranch(model);
+        drawBranch(entry, false);
     }
 }
-
-//with every mouse press, branch one next
-//with mouse press in first half of x, branch left
-//with mouse press in second half of x, branch right
-//with double click two branches from one
 
 
 // Save
