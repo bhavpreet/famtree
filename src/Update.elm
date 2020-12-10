@@ -170,10 +170,10 @@ update msg model =
                     ( model, Cmd.none )
 
         ViewportChange window ->
-            let
-                _ =
-                    Debug.toString window
-            in
+            -- let
+            --     _ =
+            --         Debug.toString window
+            -- in
             ( { model | window = window }
             , Cmd.none
             )

@@ -14,8 +14,7 @@ import Sketch exposing (..)
 inputRelatedTo : Model -> Element Msg
 inputRelatedTo model =
     column []
-        [ sketchCanvas model
-        , el
+        [ el
             [ centerX
             , padding 20
             ]
@@ -48,8 +47,9 @@ inputNameAgeRelation model =
         [ padding 20
         , centerX
         ]
-        [ sketchCanvas model
-        , el [] <| backButton (toStr model.relatedTo) BackToInputRelatedTo
+        [ el [] <|
+            backButton (backButtonStr model)
+                BackToInputRelatedTo
         , el [ padding 3 ] none
         , row
             [ spacing 15
@@ -121,8 +121,7 @@ inputRSVP model =
         [ padding 20
         , centerX
         ]
-        [ sketchCanvas model
-        , el [] <| backButton (toStr model.relatedTo) BackToInputNAR
+        [ el [] <| backButton (backButtonStr model) BackToInputNAR
         , el
             [ centerX
             , padding 20
@@ -132,7 +131,7 @@ inputRSVP model =
                 Select.filled
                     (Select.config
                         |> Select.setLabel (Just "RSVP")
-                        |> Select.setSelected (Just "")
+                        |> Select.setSelected model.rsvp
                         |> Select.setOnChange UpdateRSVP
                     )
                     (SelectItem.selectItem
@@ -170,7 +169,7 @@ submitRSVP model =
             html <|
                 Button.outlined
                     (Button.config |> Button.setOnClick Submit)
-                    "Save"
+                    "Add me to the tree !!"
 
     else
         el [] none
@@ -210,10 +209,19 @@ inputEnd model =
         [ padding 20
         , centerX
         ]
-        [ sketchCanvas model
-        , el [] <|
-            backButton "Add Another" AddMore
+        [ el [] <|
+            backButton "Add More"
+                AddMore
+        , paragraph []
+            [ text "Yay! You have been added to the tree."
+            ]
         ]
+
+
+backButtonStr model =
+    "Related to : "
+        ++ toStr model.relatedTo
+        ++ " /"
 
 
 backButton : String -> Msg -> Element Msg

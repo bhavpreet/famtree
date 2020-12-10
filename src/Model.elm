@@ -8,8 +8,8 @@ import Http as Http
 
 
 relatedToList =
-    [ "Bhavpreet"
-    , "Natasha"
+    [ "Natasha"
+    , "Bhavpreet"
     ]
 
 
