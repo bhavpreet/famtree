@@ -1,11 +1,13 @@
 port module Sketch exposing (..)
 
+-- import Json.Decode as D
+
 import Element exposing (..)
 import Html.Attributes as HAttr
 import Json.Encode as E
--- import Json.Decode as D
 import Model exposing (..)
-import Sheets exposing (toStr, toInt)
+import Sheets exposing (toInt, toStr)
+
 
 
 -- sketch
@@ -14,15 +16,29 @@ import Sheets exposing (toStr, toInt)
 port drawBranch : E.Value -> Cmd msg
 
 
-sketchCanvas : Element Msg
-sketchCanvas =
-    el
-        [ htmlAttribute <| HAttr.id "sketchCanvas"
-        , htmlAttribute <| HAttr.width 710
-        , htmlAttribute <| HAttr.height 400
-        , centerX
-        ]
-        none
+sketchCanvas : Model -> Element Msg
+sketchCanvas model =
+    if model.infoOK == False then
+        el
+            [ htmlAttribute <| HAttr.id "sketchCanvas"
+            , htmlAttribute <| HAttr.width model.window.width
+            , htmlAttribute <| HAttr.height 400
+            , centerX
+            , transparent True
+            ]
+            none
+
+    else
+        el
+            [ htmlAttribute <| HAttr.id "sketchCanvas"
+            , htmlAttribute <| HAttr.width model.window.width
+            , htmlAttribute <| HAttr.height 400
+            , width fill
+            , height fill
+            , centerX
+            ]
+            none
+
 
 
 -- JSON ENCODE/DECODE
@@ -30,13 +46,14 @@ sketchCanvas =
 
 encode : Model -> E.Value
 encode model =
-  E.object
-    [ ("name", E.string model.name)
-    , ("age", E.int (toInt model.age))
-    , ("relation", E.string (toStr model.relation))
-    , ("relatedTo", E.string (toStr model.relatedTo))
-    , ("rsvp", E.string (toStr model.rsvp))
-    ]
+    E.object
+        [ ( "name", E.string model.name )
+        , ( "age", E.int (toInt model.age) )
+        , ( "relation", E.string (toStr model.relation) )
+        , ( "relatedTo", E.string (toStr model.relatedTo) )
+        , ( "rsvp", E.string (toStr model.rsvp) )
+        ]
+
 
 
 -- decoder : D.Decoder Model

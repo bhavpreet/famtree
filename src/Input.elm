@@ -1,43 +1,45 @@
 module Input exposing (..)
 
 import Element exposing (..)
-import Html as Html
+import Html exposing (Html)
 import Material.Button as Button
--- import Material.CircularProgress as CircularProgress
--- import Material.LinearProgress as LinearProgress
 import Material.Select as Select
 import Material.Select.Item as SelectItem
 import Material.TextField as TextField
 import Model exposing (..)
 import Sheets exposing (..)
+import Sketch exposing (..)
 
 
 inputRelatedTo : Model -> Element Msg
 inputRelatedTo model =
-    el
-        [ centerX
-        , padding 20
-        ]
-    <|
-        html <|
-            Select.filled
-                (Select.config
-                    |> Select.setLabel (Just "Related To")
-                    |> Select.setSelected (Just "")
-                    |> Select.setOnChange UpdateRelatedTo
-                )
-                (SelectItem.selectItem
-                    (SelectItem.config { value = "" })
-                    [ Html.text "" ]
-                )
-            <|
-                List.map
-                    (\x ->
-                        SelectItem.selectItem
-                            (SelectItem.config { value = x })
-                            [ Html.text x ]
+    column []
+        [ sketchCanvas model
+        , el
+            [ centerX
+            , padding 20
+            ]
+          <|
+            html <|
+                Select.filled
+                    (Select.config
+                        |> Select.setLabel (Just "Related To")
+                        |> Select.setSelected (Just "")
+                        |> Select.setOnChange UpdateRelatedTo
                     )
-                    relatedToList
+                    (SelectItem.selectItem
+                        (SelectItem.config { value = "" })
+                        [ Html.text "" ]
+                    )
+                <|
+                    List.map
+                        (\x ->
+                            SelectItem.selectItem
+                                (SelectItem.config { value = x })
+                                [ Html.text x ]
+                        )
+                        relatedToList
+        ]
 
 
 inputNameAgeRelation : Model -> Element Msg
@@ -46,10 +48,11 @@ inputNameAgeRelation model =
         [ padding 20
         , centerX
         ]
-        [ el [] <| backButton (toStr model.relatedTo) BackToInputRelatedTo
+        [ sketchCanvas model
+        , el [] <| backButton (toStr model.relatedTo) BackToInputRelatedTo
         , el [ padding 3 ] none
         , row
-            [ spacing 5
+            [ spacing 15
             ]
             [ el [ width fill ] <|
                 html <|
@@ -118,7 +121,8 @@ inputRSVP model =
         [ padding 20
         , centerX
         ]
-        [ el [] <| backButton (toStr model.relatedTo) BackToInputNAR
+        [ sketchCanvas model
+        , el [] <| backButton (toStr model.relatedTo) BackToInputNAR
         , el
             [ centerX
             , padding 20
@@ -206,7 +210,8 @@ inputEnd model =
         [ padding 20
         , centerX
         ]
-        [ el [] <|
+        [ sketchCanvas model
+        , el [] <|
             backButton "Add Another" AddMore
         ]
 
@@ -224,21 +229,5 @@ backButton strVal msg =
 
 inputAwaitResp : Element Msg
 inputAwaitResp =
-    text "Please wait.."
-
-
-
--- html <|
---     LinearProgress.indeterminate LinearProgress.config
--- el [] (text "foobar")
--- el [ width fill, height fill, centerX ] <|
---     html <|
---         CircularProgress.indeterminate
---             (CircularProgress.config
---                 |> CircularProgress.setSize CircularProgress.small
---             )
--- CircularProgress.indeterminate
---     (CircularProgress.config
---         |> CircularProgress.setSize CircularProgress.large
---         |> CircularProgress.setClosed False
---     )
+    text
+        "Please wait.."

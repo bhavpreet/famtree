@@ -16,6 +16,7 @@ var levelB = 0;
 var treeN = [];
 var levelN = 0;
 
+var height = 400
 
 let sketch = function(p) {
     gp = p;
@@ -30,6 +31,10 @@ let sketch = function(p) {
 
     p.preload = function() {
         table = p.loadTable('https://docs.google.com/spreadsheets/d/1ugOJeRIHwUR36fp1-MawZqqw1_X29q4nrLiKM_gu9FI/gviz/tq\?tqx\=out:csv\&sheet\=Sheet1', 'csv', 'header');
+    }
+
+    p.windowResized = function () {
+        gp.resizeCanvas(p.windowWidth, height);
     }
 
     p.setup = function() {
@@ -57,7 +62,7 @@ let sketch = function(p) {
 
     p.draw = function() {
 
-        p.background(220);
+        p.background(255);
 
         // showing tree array
         for ( var i = 0; i < tree.length; i++) {

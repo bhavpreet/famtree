@@ -4,6 +4,10 @@ import * as serviceWorker from './serviceWorker';
 
 var app = Elm.Main.init({
   node: document.getElementById('root')
+  , flags: {
+            width: window.innerWidth,
+            height: window.innerHeight
+        }
 });
 
 app.ports.drawBranch.subscribe(function(model) {

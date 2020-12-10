@@ -29,6 +29,12 @@ rsvpList =
     ]
 
 
+type alias Window =
+    { width : Int
+    , height : Int
+    }
+
+
 
 ---- MODEL ----
 
@@ -43,8 +49,10 @@ type alias Model =
     , awaitResp : Bool -- Flag to wait on submit status
     , tryAgain : Bool -- marker for error, have to try submit again
     , allDone : Bool -- Flag to say all values are set and submitted
-    , relationsList: List String
-    , showRelationText: Bool
+    , relationsList : List String
+    , showRelationText : Bool
+    , infoOK : Bool
+    , window : Window
     }
 
 
@@ -63,3 +71,5 @@ type Msg
     | SubmitRelationRet (Result Http.Error String)
     | AddMore
     | FetchRelations (Result Http.Error String)
+    | ViewportChange Window
+    | InfoOK
