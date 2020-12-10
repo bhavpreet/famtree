@@ -3,6 +3,7 @@ module Main exposing (..)
 import Browser
 import Browser.Events as Events
 import Element exposing (..)
+import Element.Background as Background
 import Html exposing (Html)
 import InfoPage exposing (infoPage)
 import Input exposing (..)
@@ -39,8 +40,8 @@ init window =
 view : Model -> Html Msg
 view model =
     layout
-        [ width (fill |> maximum model.window.width)
-        , height (fill |> maximum model.window.height)
+        [ width (px model.window.width)
+        , height (px model.window.height)
         , behindContent <| sketchCanvas model
         ]
     <|

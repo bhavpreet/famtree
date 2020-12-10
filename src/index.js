@@ -18,3 +18,16 @@ app.ports.drawBranch.subscribe(function(model) {
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+// Make full screen
+/* When the openFullscreen() function is executed, open the video in fullscreen.
+Note that we must include prefixes for different browsers, as they don't support the requestFullscreen method yet */
+function openFullscreen() {
+  if (app.requestFullscreen) {
+    app.requestFullscreen();
+  } else if (app.webkitRequestFullscreen) { /* Safari */
+    app.webkitRequestFullscreen();
+  } else if (app.msRequestFullscreen) { /* IE11 */
+    app.msRequestFullscreen();
+  }
+}
+openFullscreen();

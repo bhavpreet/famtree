@@ -3,11 +3,7 @@ module InfoPage exposing (..)
 import Element exposing (..)
 import Element.Background as Background
 import Element.Font as Font
-import Html exposing (Html)
 import Material.Button as Button
-import Material.Select as Select
-import Material.Select.Item as SelectItem
-import Material.TextField as TextField
 import Model exposing (..)
 import Sheets exposing (..)
 import Sketch exposing (..)
@@ -17,24 +13,78 @@ infoPage : Model -> Element Msg
 infoPage model =
     html <|
         layout
-            [ width (fill |> maximum model.window.width)
-            , height (fill |> maximum model.window.height)
+            [ width (px model.window.width)
+            , height (px model.window.height)
             , inFront <|
                 el
-                    [ alignBottom
-                    , centerX
-                    , padding (model.window.height // 10)
+                    [ Background.color (rgb255 255 255 255)
+                    , height (px 100)
+                    , width fill
                     ]
-                <|
-                    html <|
-                        Button.raised
-                            (Button.config |> Button.setOnClick InfoOK)
-                            "Next"
+                    none
+            , inFront <|
+                el
+                    [ Background.color (rgb255 255 255 255)
+                    , height (px 85)
+                    , width fill
+                    , alignBottom
+                    ]
+                    none
+            , inFront <|
+                image
+                    [ width (fill |> maximum 350)
+                    , alignTop
+                    , alignRight
+                    ]
+                    { src = "invitation-header-right.png"
+                    , description = "Floral background image header"
+                    }
+            , inFront <|
+                image
+                    [ width (fill |> maximum 350)
+                    , alignBottom
+                    , alignLeft
+                    ]
+                    { src = "invitation-footer-left.png"
+                    , description = "Floral background image footer"
+                    }
+            , inFront <|
+                image
+                    [ width (fill |> maximum 350)
+                    , alignBottom
+                    , alignRight
+                    ]
+                    { src = "invitation-footer-right.png"
+                    , description = "Floral background image footer"
+                    }
+            , inFront <|
+                column
+                    [ -- height fill
+                      -- , width fill
+                      alignBottom
+                    , centerX
+                    ]
+                    [ el
+                        [ alignBottom
+                        , centerX
+                        ]
+                      <|
+                        html <|
+                            Button.raised
+                                (Button.config |> Button.setOnClick InfoOK)
+                                "Welcome!"
+                    , el
+                        [ padding 50
+                        , alignBottom
+                        ]
+                        none
+                    ]
             ]
         <|
             column
-                [ height fill
+                [ centerX
                 , width fill
+                , height (px model.window.height)
 
                 -- , inFront <| infoPage model
                 ]
@@ -47,7 +97,6 @@ gurmukhiHeader : Int -> Element Msg
 gurmukhiHeader height_ =
     column
         [ centerX
-        , padding 20
         , Font.bold
         , spacing 4
         ]
@@ -74,7 +123,7 @@ message1 model =
         -- , Background.color (rgb255 0 0 0)
         , centerX
         , spacing 10
-        , padding 40
+        , paddingXY 70 90
 
         -- , centerY
         ]
