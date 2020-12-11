@@ -51,7 +51,8 @@ type alias Model =
     , allDone : Bool -- Flag to say all values are set and submitted
     , relationsList : List String
     , showRelationText : Bool
-    , infoOK : Bool
+    , infoOK1 : Bool
+    , infoOK2 : Bool
     , window : Window
     }
 

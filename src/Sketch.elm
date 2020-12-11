@@ -18,7 +18,7 @@ port drawBranch : E.Value -> Cmd msg
 
 sketchCanvas : Model -> Element Msg
 sketchCanvas model =
-    if model.infoOK == False then
+    if model.infoOK2 == False then
         el
             [ htmlAttribute <| HAttr.id "sketchCanvas"
             , htmlAttribute <| HAttr.width model.window.width

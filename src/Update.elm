@@ -179,9 +179,16 @@ update msg model =
             )
 
         InfoOK ->
-            ( { model | infoOK = True }
-            , Cmd.none
-            )
+            if model.infoOK1 == True then
+                ( { model | infoOK1 = True }
+                , Cmd.none
+                )
+
+            else
+                -- ( { model | infoOK1 = True }
+                ( { model | infoOK2 = True }
+                , Cmd.none
+                )
 
         NoOp ->
             ( model, Cmd.none )

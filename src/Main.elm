@@ -26,7 +26,8 @@ init window =
       , tryAgain = False
       , relationsList = defaultRelationsList
       , showRelationText = False
-      , infoOK = False
+      , infoOK1 = False
+      , infoOK2 = False
       , window = window
       }
     , Cmd.batch [ fetchRelations ]
@@ -50,7 +51,7 @@ view model =
 
 viewLogic : Model -> Element Msg
 viewLogic model =
-    if model.infoOK == False then
+    if model.infoOK2 == False then
         infoPage model
 
     else if model.relatedTo == Nothing then
