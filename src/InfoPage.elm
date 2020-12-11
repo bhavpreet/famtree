@@ -15,22 +15,7 @@ infoPage model =
         layout
             [ width (px model.window.width)
             , height (px model.window.height)
-            , inFront <|
-                el
-                    [ Background.color (rgb255 255 255 255)
-                    , height (px 100)
-                    , width fill
-                    ]
-                    none
-            , inFront <|
-                el
-                    [ Background.color (rgb255 255 255 255)
-                    , height (px 85)
-                    , width fill
-                    , alignBottom
-                    ]
-                    none
-            , inFront <|
+            , behindContent <|
                 image
                     [ width (fill |> maximum 350)
                     , alignTop
@@ -39,7 +24,7 @@ infoPage model =
                     { src = "invitation-header-right.png"
                     , description = "Floral background image header"
                     }
-            , inFront <|
+            , behindContent <|
                 image
                     [ width (fill |> maximum 350)
                     , alignBottom
@@ -48,7 +33,7 @@ infoPage model =
                     { src = "invitation-footer-left.png"
                     , description = "Floral background image footer"
                     }
-            , inFront <|
+            , behindContent <|
                 image
                     [ width (fill |> maximum 350)
                     , alignBottom
@@ -67,8 +52,19 @@ infoPage model =
 
                 -- , inFront <| infoPage model
                 ]
-                [ messageLogic model
-                , el [ padding 70 ] none
+                [ headerPadding
+                , el
+                    [ height <|
+                        px
+                            (model.window.height
+                                - (headerHeight + footerHeight)
+                            )
+                    , scrollbarY
+                    , centerX
+                    ]
+                  <|
+                    messageLogic model
+                , footerPadding
                 ]
 
 
@@ -81,8 +77,8 @@ messageLogic model =
         message2 model
 
 
-gurmukhiHeader : Int -> Element Msg
-gurmukhiHeader height_ =
+gurmukhiHeader : Int -> Int -> Element Msg
+gurmukhiHeader w h =
     column
         [ centerX
         , Font.bold
@@ -91,7 +87,8 @@ gurmukhiHeader height_ =
         ]
         [ row
             [ centerX
-            , spacing 20
+            , width fill
+            , spaceEvenly
             ]
             [ el [ Font.size 30 ] (text "☬")
             , paragraph
@@ -105,7 +102,7 @@ gurmukhiHeader height_ =
             [ text "ਨਾਨਕ ਸਤਗੁਰੁ ਤਿਨਾ ਮਿਲਾਇਆ" ]
         , paragraph [ centerX ]
             [ text "ਜਿਨਾ ਧੁਰੇ ਪਇਆ ਸੰਜੋਗੁ ।।" ]
-        , el [ height (px <| height_ // 74) ] none
+        , el [ height (px <| h // 74) ] none
         ]
 
 
@@ -117,16 +114,17 @@ message1 model =
         -- , height <| px 100
         -- , Background.color (rgb255 0 0 0)
         , centerX
+        , centerY
         , spacing 3
-        , paddingXY 70 90
+        , paddingXY 70 0
         , Font.family
             [ Font.typeface "Courgette"
             ]
 
         -- , centerY
         ]
-        [ el [ height (px <| model.window.height // 14) ] none
-        , gurmukhiHeader model.window.height
+        [ el [ paddingXY 0 10 ] none
+        , gurmukhiHeader model.window.width model.window.height
         , el [ padding 3 ] none
         , paragraph
             []
@@ -182,6 +180,7 @@ message1 model =
         , el [ padding 2 ] none
         , paragraph []
             [ text "Followed by lunch at Jaypee Vasant Continental" ]
+        , el [ paddingXY 0 35 ] none
         ]
 
 
@@ -253,3 +252,33 @@ raisedButton label msg =
             ]
             none
         ]
+
+
+headerHeight : Int
+headerHeight =
+    98
+
+
+headerPadding : Element Msg
+headerPadding =
+    el
+        [ height (px headerHeight)
+        , width fill
+        , alignTop
+        ]
+        none
+
+
+footerHeight : Int
+footerHeight =
+    87
+
+
+footerPadding : Element Msg
+footerPadding =
+    el
+        [ height (px footerHeight)
+        , width fill
+        , alignBottom
+        ]
+        none
