@@ -171,15 +171,28 @@ message1 model =
         , paragraph []
             [ text "Anand karaj at 11am" ]
         , el [ padding 2 ] none
-        , paragraph [ Font.italic ]
+        , paragraph []
             [ text "- Venue -" ]
         , paragraph []
-            [ text "Gurudwara Nanak Satsang Sabha," ]
+            [ link [ Font.color linkColor
+                   , Font.underline
+                   ]
+                { url = "https://goo.gl/maps/fm9MmuZzpQsHfYeF9"
+                , label = text "Gurudwara Nanak Satsang Sabha,"
+                }
+            ]
         , paragraph []
             [ text "Vasant Vihar, F-1/4 Munirka Marg." ]
         , el [ padding 2 ] none
         , paragraph []
-            [ text "Followed by lunch at Jaypee Vasant Continental" ]
+            [ text "Followed by lunch at "
+            , link [ Font.color linkColor
+                   , Font.underline
+                   ]
+                { url = "https://goo.gl/maps/iSYthrgMtHGEz8a66"
+                , label = text "Jaypee Vasant Continental"
+                }
+            ]
         , el [ paddingXY 0 35 ] none
         ]
 
@@ -253,6 +266,8 @@ raisedButton label msg =
             none
         ]
 
+linkColor : Color
+linkColor = rgb255 106 106 247
 
 headerHeight : Int
 headerHeight =
