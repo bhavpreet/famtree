@@ -1,7 +1,6 @@
 module InfoPage exposing (..)
 
 import Element exposing (..)
-import Element.Background as Background
 import Element.Font as Font
 import Material.Button as Button
 import Model exposing (..)
@@ -21,7 +20,7 @@ infoPage model =
                     , alignTop
                     , alignRight
                     ]
-                    { src = "invitation-header-right.png"
+                    { src = model.assets.headerBgRight
                     , description = "Floral background image header"
                     }
             , behindContent <|
@@ -30,7 +29,7 @@ infoPage model =
                     , alignBottom
                     , alignLeft
                     ]
-                    { src = "invitation-footer-left.png"
+                    { src = model.assets.footerBgLeft
                     , description = "Floral background image footer"
                     }
             , behindContent <|
@@ -39,7 +38,7 @@ infoPage model =
                     , alignBottom
                     , alignRight
                     ]
-                    { src = "invitation-footer-right.png"
+                    { src = model.assets.footerBgRight
                     , description = "Floral background image footer"
                     }
             , inFront <| infoButtonLogic model
@@ -174,9 +173,10 @@ message1 model =
         , paragraph []
             [ text "- Venue -" ]
         , paragraph []
-            [ link [ Font.color linkColor
-                   , Font.underline
-                   ]
+            [ link
+                [ Font.color linkColor
+                , Font.underline
+                ]
                 { url = "https://goo.gl/maps/fm9MmuZzpQsHfYeF9"
                 , label = text "Gurudwara Nanak Satsang Sabha,"
                 }
@@ -186,9 +186,10 @@ message1 model =
         , el [ padding 2 ] none
         , paragraph []
             [ text "Followed by lunch at "
-            , link [ Font.color linkColor
-                   , Font.underline
-                   ]
+            , link
+                [ Font.color linkColor
+                , Font.underline
+                ]
                 { url = "https://goo.gl/maps/iSYthrgMtHGEz8a66"
                 , label = text "Jaypee Vasant Continental"
                 }
@@ -266,8 +267,11 @@ raisedButton label msg =
             none
         ]
 
+
 linkColor : Color
-linkColor = rgb255 106 106 247
+linkColor =
+    rgb255 106 106 247
+
 
 headerHeight : Int
 headerHeight =

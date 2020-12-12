@@ -13,8 +13,8 @@ import Sketch exposing (sketchCanvas)
 import Update exposing (update)
 
 
-init : Window -> ( Model, Cmd Msg )
-init window =
+init : Flags -> ( Model, Cmd Msg )
+init flags =
     ( { name = ""
       , age = Nothing
       , relation = Nothing
@@ -28,7 +28,8 @@ init window =
       , showRelationText = False
       , infoOK1 = False
       , infoOK2 = False
-      , window = window
+      , window = flags.window
+      , assets = flags.assets
       }
     , Cmd.batch [ fetchRelations ]
     )
@@ -99,7 +100,7 @@ subscriptions model =
 ---- PROGRAM ----
 
 
-main : Program Window Model Msg
+main : Program Flags Model Msg
 main =
     Browser.element
         { view = view

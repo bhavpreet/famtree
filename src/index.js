@@ -2,12 +2,25 @@ import './main.css';
 import { Elm } from './Main.elm';
 import * as serviceWorker from './serviceWorker';
 
+// Images
+import headerBgRight from "../public/invitation-header-right.png"
+import footerBgLeft from "../public/invitation-footer-left.png"
+import footerBgRight from "../public/invitation-footer-right.png"
+
+
 var app = Elm.Main.init({
   node: document.getElementById('root')
   , flags: {
-            width: window.innerWidth,
-            height: window.innerHeight
-        }
+    window : {
+      width: window.innerWidth,
+      height: window.innerHeight
+    },
+    assets : {
+      headerBgRight: headerBgRight,
+      footerBgLeft: footerBgLeft,
+      footerBgRight: footerBgRight
+    }
+  }
 });
 
 app.ports.drawBranch.subscribe(function(model) {

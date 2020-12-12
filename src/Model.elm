@@ -35,6 +35,19 @@ type alias Window =
     }
 
 
+type alias Assets =
+    { headerBgRight : String
+    , footerBgLeft : String
+    , footerBgRight : String
+    }
+
+
+type alias Flags =
+    { window : Window
+    , assets : Assets
+    }
+
+
 
 ---- MODEL ----
 
@@ -54,6 +67,7 @@ type alias Model =
     , infoOK1 : Bool
     , infoOK2 : Bool
     , window : Window
+    , assets : Assets
     }
 
 
