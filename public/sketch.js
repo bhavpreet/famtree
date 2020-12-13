@@ -34,7 +34,8 @@ let sketch = function(p) {
     }
 
     p.windowResized = function () {
-        gp.resizeCanvas(p.windowWidth, p.windowHeight / 3);
+        gp.resizeCanvas(p.windowWidth, p.windowHeight / 1.5);
+        gp.redraw();
     }
 
     p.setup = function() {
@@ -42,16 +43,19 @@ let sketch = function(p) {
         // p.createCanvas(400, 400);
         p.textSize(23);
 
-
+        // Load PNGs
+        child = p.loadImage("child.png");
+        adult = p.loadImage("adult.png");
+        elder = p.loadImage("elder.png");
         // vector here stores the start point and end point
         // a vector has magnitude and direction
         var a = p.createVector (p.width/2, p.height); //startpoint
         var b = p.createVector (p.width/2, p.height-100); //endpoint
-        var root = new Branch (a, b); //starting first branch line |
+        var root = new Branch (a, b, null); //starting first branch line |
         tree[0] = root; //storing the root in the tree array
-        tree.push(tree[0].branchL(p))
+        tree.push(tree[0].branch(p, -p.PI/4));
         treeN.push(tree[tree.length-1]);
-        tree.push(tree[0].branchR(p))
+        tree.push(tree[0].branch(p, p.PI/6));
         treeB.push(tree[tree.length-1]);
 
         //var newBranch = root.branch(); //new branch came out of the root
@@ -60,89 +64,108 @@ let sketch = function(p) {
         drawTable(table);
     }
 
+
     p.draw = function() {
-
         p.background(255);
-
         // showing tree array
         for ( var i = 0; i < tree.length; i++) {
-            //tree[1].show(); //replacing root.show, now array
-            //tree[2].show();
-            tree[i].show(p);
-            // tree[i].jitter(p);
+            t = tree[i]
+            t.show(p);
         }
 
-        //root.show();
+        // leafs
+        for (var i=3; i < tree.length; i++) {
+            let scale = 25;
+            t = tree[i];
+            p.push();
+            dir = p5.Vector.sub(t.end, t.begin);
+            p.translate(t.begin.x, t.begin.y);
+            p.rotate(dir.heading());
+            p.translate(dir.mag()+(scale/2.3), 0);
+            p.imageMode(p.CENTER);
+            p.rotate(p.PI/2);
+            p.image(elder, 0, 0, scale, scale);
 
-        for ( var i = 0; i < leaves.length; i++) {
-            if (leaves[i].entry.isNew == true) {
-                p.stroke(0);
-                p.fill(90, 0, 230);
-            } else {
-                p.noStroke();
-                p.fill(245, 156, 67);
-            }
-            //p.stroke(0);
-            p.ellipse (leaves[i].x, leaves[i].y, 8,8); //ellipse diam
-
-            //leaves[i].show();
-            let d = p.dist(p.mouseX, p.mouseY, leaves[i].x, leaves[i].y);
-            if (d < 5 || leaves[i].entry.isNew == true) {
+            let d = p.dist(p.mouseX, p.mouseY, t.leaf.x, t.leaf.y);
+            if (d < 5) {
                 p.fill(0);
                 p.textAlign(p.CENTER);
                 p.textSize(14);
-                //p.noStroke();
-                p.text(leaves[i].entry.name, leaves[i].x, leaves[i].y + 8 - 20);
-                p.fill(234,98,0);
-                p.stroke(0);
-                p.ellipse(leaves[i].x, leaves[i].y, 8,8);
+                p.noStroke();
+                p.text(t.entry.name, 0, 0 + 8 - 20);
+                // p.fill(234,98,0);
+                // p.stroke(0);
+                // p.ellipse(leaf.x, leaf.y, 8,8);
             }
-            
+
+            p.pop();
+
         }
     }
 };
 
 new p5(sketch, 'sketchCanvas');
 
+// draw an arrow for a vector at a given base position
+function drawArrow(base, vec, myColor) {
+  gp.push();
+  gp.stroke(myColor);
+  gp.strokeWeight(3);
+  gp.fill(myColor);
+  gp.translate(base.x, base.y);
+  gp.line(0, 0, vec.x, vec.y);
+  gp.rotate(vec.heading());
+  let arrowSize = 7;
+  gp.translate(vec.mag() - arrowSize, 0);
+  gp.triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
+  gp.pop();
+}
+
 function drawEvenOdd(bnTree, level, entry) {
+    let angle = 0;
     if ((bnTree.length - (2 * level + 1)) % 2 == 0) {
         // console.log("even");
         parent = (bnTree.length - 1) / 2;
         // console.log("parent: ", parent);
         // console.log("parent node: ", bnTree[parent]);
-        tree.push(bnTree[parent].branchL(gp));
+        angle = -gp.PI/4;
+        tree.push(bnTree[parent].branch(gp, angle));
     } else {
         // console.log("odd");
         parent = (bnTree.length - 2) / 2;
         // console.log("parent: ", parent);
         // console.log("parent node: ", bnTree[parent]);
-        tree.push(bnTree[parent].branchR(gp));
+        angle = gp.PI/6;
+        tree.push(bnTree[parent].branch(gp, angle));
     }
     bnTree.push(tree[tree.length-1]);
     tree[tree.length-1].entry = entry;
+    return angle;
 }
 
 function drawBranch(entry, isNew) {    // mouseClick
     // console.log("entry = ", entry.relatedTo);
+    var angle = 0;
     if (entry.relatedTo == "Natasha") {
         var maxElems = Math.pow(2, levelN);
         // console.log("maxElems = ", maxElems, "levelN = ", levelN)
         if (treeN.length - (2 * levelN + 1) == maxElems) {
             levelN += 1
         }
-        drawEvenOdd(treeN, levelN, entry);
+        angle = drawEvenOdd(treeN, levelN, entry);
     } else if (entry.relatedTo == "Bhavpreet") {
         var maxElems = Math.pow(2, levelN);
         // console.log("maxElems = ", maxElems, "levelN = ", levelN)
         if (treeB.length - (2 * levelB + 1) == maxElems) {
             levelB += 1
         }
-        drawEvenOdd(treeB, levelB, entry);
+        angle = drawEvenOdd(treeB, levelB, entry);
     }
-    var leaf = tree[tree.length-1].end.copy(); 
+    var leaf = tree[tree.length-1].end.copy();
     entry.isNew = isNew;
     leaf.entry = entry;
     leaves.push(leaf);
+    leaves[leaves.length-1].angle = angle;
 
     //color code name with alpha, rsvp
     //age 
