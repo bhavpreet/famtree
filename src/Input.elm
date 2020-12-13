@@ -6,6 +6,7 @@ import Html exposing (Html)
 import Html.Attributes as HAttr
 import InfoPage exposing (raisedButton)
 import Material.Button as Button
+import Material.IconButton as IconButton
 import Material.Select as Select
 import Material.Select.Item as SelectItem
 import Material.TextField as TextField
@@ -17,11 +18,15 @@ import Sketch exposing (..)
 inputRelatedTo : Model -> Element Msg
 inputRelatedTo model =
     column []
-        [ el [] <|
-            textButton "Guest of ?"
-                NoOp
+        [ row [ width fill ]
+            [ infoButton model
+            , el [ centerX ] (text "/")
+            , el [ alignRight ] <|
+                backButton "Guest Of?" NoOp
+            ]
         , row
             [ spacing 20
+            , width fill
             ]
             [ el
                 [ centerX
@@ -69,9 +74,13 @@ inputNameAgeRelation model =
         , paddingXY 20 0
         , spacing 3
         ]
-        [ el [] <|
-            backButton (backButtonStr model)
-                BackToInputRelatedTo
+        [ row [ width fill ]
+            [ infoButton model
+            , el [ centerX ] (text "/")
+            , el [ alignRight ] <|
+                backButton (backButtonStr model)
+                    BackToInputRelatedTo
+            ]
         , row
             [ width fill
             , spacing 5
@@ -160,7 +169,13 @@ inputRSVP model =
         [ padding 20
         , centerX
         ]
-        [ el [] <| backButton (backButtonStr model) BackToInputNAR
+        [ row [ width fill ]
+            [ infoButton model
+            , el [ centerX ] (text "/")
+            , el [ alignRight ] <|
+                backButton (backButtonStr model)
+                    BackToInputNAR
+            ]
         , el
             [ centerX
             , padding 20
@@ -247,9 +262,13 @@ inputEnd model =
         [ padding 20
         , centerX
         ]
-        [ el [] <|
-            backButton "Add More"
-                AddMore
+        [ row [ width fill ]
+            [ infoButton model
+            , el [ centerX ] (text "/")
+            , el [ alignRight ] <|
+                backButton "Add More"
+                    AddMore
+            ]
         , el [ padding 4 ] none
         , paragraph
             [ Font.family
@@ -263,10 +282,33 @@ inputEnd model =
         ]
 
 
+infoButton : Model -> Element Msg
+infoButton model =
+    el
+        []
+    <|
+        html <|
+            Button.text
+                (Button.config
+                    |> Button.setIcon (Just (Button.icon "info_outlined"))
+                    |> Button.setOnClick Model.BackToInfoPage
+                )
+                "Info"
+
+
+
+-- IconButton.iconButton
+--     (IconButton.config |> IconButton.setOnClick BackToInfoPage)
+--     (IconButton.icon "info_outlined")
+
+
 backButtonStr model =
     "Related to : "
         ++ toStr model.relatedTo
-        ++ " /"
+
+
+
+-- ++ " /"
 
 
 backButton : String -> Msg -> Element Msg
@@ -274,7 +316,7 @@ backButton strVal msg =
     html <|
         Button.text
             (Button.config
-                |> Button.setIcon (Just (Button.icon "keyboard_arrow_left"))
+                |> Button.setIcon (Just (Button.icon "perm_identity_outlined"))
                 |> Button.setOnClick msg
             )
             strVal

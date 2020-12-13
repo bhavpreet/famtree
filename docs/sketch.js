@@ -34,11 +34,11 @@ let sketch = function(p) {
     }
 
     p.windowResized = function () {
-        gp.resizeCanvas(p.windowWidth, height);
+        gp.resizeCanvas(p.windowWidth, p.windowHeight / 3);
     }
 
     p.setup = function() {
-        p.createCanvas(p.windowWidth, 400);
+        p.createCanvas(p.windowWidth, p.windowHeight / 1.5);
         // p.createCanvas(400, 400);
         p.textSize(23);
 

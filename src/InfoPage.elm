@@ -116,7 +116,7 @@ message1 model =
         -- , Background.color (rgb255 0 0 0)
         , centerX
         , centerY
-        , spacing 0
+        , spacing 2
         , paddingXY 70 0
         , Font.family
             [ Font.typeface "Courgette"
@@ -187,7 +187,7 @@ message1 model =
             ]
         , paragraph []
             [ text "Vasant Vihar, F-1/4 Munirka Marg." ]
-        , el [ padding 2 ] none
+        , el [ padding 5 ] none
         , paragraph []
             [ text "Followed by lunch at "
             , link
@@ -198,7 +198,7 @@ message1 model =
                 , label = text "Jaypee Vasant Continental"
                 }
             ]
-        , el [ paddingXY 0 35 ] none
+        , el [ paddingXY 0 (model.window.height // 54) ] none
         ]
 
 

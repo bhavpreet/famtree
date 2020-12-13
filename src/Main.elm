@@ -78,15 +78,7 @@ bottomHalf model uiElem =
         [ height fill
         , width fill
         ]
-        [ el
-            [ paddingXY (model.window.width // 10) (model.window.width // 10)
-            ]
-          <|
-            html <|
-                IconButton.iconButton
-                    (IconButton.config |> IconButton.setOnClick BackToInfoPage)
-                    (IconButton.icon "info_outlined")
-        , column
+        [ column
             [ centerX
             , alignBottom
             ]
@@ -100,7 +92,7 @@ bottomHalf model uiElem =
                 ]
                 uiElem
             , el
-                [ padding (model.window.height // 20)
+                [ padding (model.window.height // 50)
                 ]
                 none
             ]
