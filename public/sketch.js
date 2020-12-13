@@ -158,7 +158,7 @@ function drawTable(table) {
     for (let r=0; r < table.getRowCount(); r++) {
         entry = { "name" : table.getString(r, 0),
                   "relation" : table.getString(r,1),
-                  "age" : table.getNum(r,2),
+                  "age" : table.getString(r,2),
                   "relatedTo" : table.getString(r,3),
                   "rsvp" : table.getString(r,4)
                 };

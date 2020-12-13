@@ -7,6 +7,7 @@ import Element.Background as Background
 import Html exposing (Html)
 import InfoPage exposing (infoPage)
 import Input exposing (..)
+import Material.IconButton as IconButton
 import Model exposing (..)
 import Sheets exposing (..)
 import Sketch exposing (sketchCanvas)
@@ -16,7 +17,7 @@ import Update exposing (update)
 init : Flags -> ( Model, Cmd Msg )
 init flags =
     ( { name = ""
-      , age = Nothing
+      , age = toStr (List.head ageGroup)
       , relation = Nothing
       , nar = False
       , relatedTo = Nothing
@@ -74,22 +75,35 @@ viewLogic model =
 bottomHalf : Model -> Element Msg -> Element Msg
 bottomHalf model uiElem =
     column
-        [ centerX
-        , alignBottom
+        [ height fill
+        , width fill
         ]
-        [ --  el [ height (px <| model.window.height // 2) ]
-          --     none
-          -- , el [ padding 20 ] none
-          -- ,
-          el
-            [ height fill
-            , width fill
+        [ el
+            [ paddingXY (model.window.width // 10) (model.window.width // 10)
             ]
-            uiElem
-        , el
-            [ padding (model.window.height // 20)
+          <|
+            html <|
+                IconButton.iconButton
+                    (IconButton.config |> IconButton.setOnClick BackToInfoPage)
+                    (IconButton.icon "info_outlined")
+        , column
+            [ centerX
+            , alignBottom
             ]
-            none
+            [ --  el [ height (px <| model.window.height // 2) ]
+              --     none
+              -- , el [ padding 20 ] none
+              -- ,
+              el
+                [ height fill
+                , width fill
+                ]
+                uiElem
+            , el
+                [ padding (model.window.height // 20)
+                ]
+                none
+            ]
         ]
 
 

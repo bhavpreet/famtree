@@ -37,7 +37,7 @@ writeToSheet model =
                 ++ "&col2="
                 ++ toStr model.relation
                 ++ "&col3="
-                ++ ageToStr model.age
+                ++ model.age
                 ++ "&col4="
                 ++ toStr model.relatedTo
                 ++ "&col5="

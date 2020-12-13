@@ -1,7 +1,7 @@
 {
   "main.css": "/static/css/main.0af5c45f.chunk.css",
-  "main.js": "/static/js/main.21f165af.chunk.js",
-  "main.js.map": "/static/js/main.21f165af.chunk.js.map",
+  "main.js": "/static/js/main.fb46ac0f.chunk.js",
+  "main.js.map": "/static/js/main.fb46ac0f.chunk.js.map",
   "runtime~main.js": "/static/js/runtime~main.1b922744.js",
   "runtime~main.js.map": "/static/js/runtime~main.1b922744.js.map",
   "vendors~main.js": "/static/js/vendors~main.bb36eb2f.chunk.js",
@@ -17,7 +17,10 @@
   "manifest.json": "/manifest.json",
   "p5.js": "/p5.js",
   "p5.sound.min.js": "/p5.sound.min.js",
-  "precache-manifest.2369637b78252e719e0cbaf8799a8e54.js": "/precache-manifest.2369637b78252e719e0cbaf8799a8e54.js",
+  "precache-manifest.d5d3c34fc5b6601abf94bc3ad777464b.js": "/precache-manifest.d5d3c34fc5b6601abf94bc3ad777464b.js",
   "sketch.js": "/sketch.js",
+  "static/media/invitation-footer-left.70aa3a3b.png": "/static/media/invitation-footer-left.70aa3a3b.png",
+  "static/media/invitation-footer-right.a81a6f4d.png": "/static/media/invitation-footer-right.a81a6f4d.png",
+  "static/media/invitation-header-right.4e23927c.png": "/static/media/invitation-header-right.4e23927c.png",
   "style.css": "/style.css"
 }

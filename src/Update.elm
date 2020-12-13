@@ -20,7 +20,7 @@ update msg model =
             )
 
         UpdateAge age ->
-            ( { model | age = String.toInt age }
+            ( { model | age = age }
             , Cmd.none
             )
 
@@ -57,6 +57,10 @@ update msg model =
             else
                 ( model, Cmd.none )
 
+        BackToInfoPage ->
+            ( { model | infoOK2 = False }
+            , Cmd.none
+            )
         BackToInputRelatedTo ->
             ( { model
                 | relatedTo = Nothing
@@ -120,7 +124,7 @@ update msg model =
         AddMore ->
             ( { model
                 | name = ""
-                , age = Nothing
+                , age = toStr (List.head ageGroup)
                 , relation = Nothing
                 , nar = False
 

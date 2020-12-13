@@ -8,8 +8,8 @@ import Http as Http
 
 
 relatedToList =
-    [ "Natasha"
-    , "Bhavpreet"
+    [ "Bride"
+    , "Groom"
     ]
 
 
@@ -23,12 +23,11 @@ defaultRelationsList =
     ]
 
 ageGroup =
-    [ "Young at heart"
-    , "Elder"
-    , "Middle aged"
-    , "Youth"
-    , "Teenager"
-    , "Child"
+    [ "Young at 💖"
+    , "Above 50"
+    , "30-50"
+    , "20-30"
+    , "< 20"
     ]
 
 rsvpList =
@@ -62,7 +61,7 @@ type alias Flags =
 
 type alias Model =
     { name : String
-    , age : Maybe Int
+    , age : String
     , relation : Maybe String
     , nar : Bool -- Name Age Relation Flag => Indicates they are set
     , relatedTo : Maybe String
@@ -86,6 +85,7 @@ type Msg
     | UpdateRelation String
     | UpdateRelatedTo String
     | UpdateRSVP String
+    | BackToInfoPage
     | BackToInputRelatedTo
     | BackToInputNAR
     | NextNAR

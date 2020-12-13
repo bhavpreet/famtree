@@ -1,7 +1,10 @@
 module Input exposing (..)
 
 import Element exposing (..)
+import Element.Font as Font
 import Html exposing (Html)
+import Html.Attributes as HAttr
+import InfoPage exposing (raisedButton)
 import Material.Button as Button
 import Material.Select as Select
 import Material.Select.Item as SelectItem
@@ -9,14 +12,13 @@ import Material.TextField as TextField
 import Model exposing (..)
 import Sheets exposing (..)
 import Sketch exposing (..)
-import InfoPage exposing (raisedButton)
 
 
 inputRelatedTo : Model -> Element Msg
 inputRelatedTo model =
     column []
         [ el [] <|
-            textButton "Related to ? "
+            textButton "Guest of ?"
                 NoOp
         , row
             [ spacing 20
@@ -27,18 +29,18 @@ inputRelatedTo model =
               <|
                 html <|
                     Button.outlined
-                        (Button.config |> Button.setOnClick (UpdateRelatedTo "Natasha"))
-                        "Natasha"
+                        (Button.config |> Button.setOnClick (UpdateRelatedTo "Bride"))
+                        "Bride"
             , el
                 [ centerX
                 ]
               <|
                 html <|
                     Button.outlined
-                        (Button.config |> Button.setOnClick (UpdateRelatedTo "Bhavpreet"))
-                        "Bhavpreet"
+                        (Button.config |> Button.setOnClick (UpdateRelatedTo "Groom"))
+                        "Groom"
 
-            -- Select.filled
+            -- Select.outlined
             --     (Select.config
             --         |> Select.setLabel (Just "Related To")
             --         |> Select.setSelected (Just "")
@@ -65,30 +67,25 @@ inputNameAgeRelation model =
     column
         [ centerX
         , paddingXY 20 0
+        , spacing 3
         ]
         [ el [] <|
             backButton (backButtonStr model)
                 BackToInputRelatedTo
-        , el [ padding 3 ] none
         , row
-            [ spacing 15
+            [ width fill
+            , spacing 5
             ]
             [ el [ width fill ] <|
                 html <|
-                    TextField.filled
+                    TextField.outlined
                         (TextField.config
                             |> TextField.setLabel (Just "Name")
                             |> TextField.setValue (Just model.name)
                             |> TextField.setOnInput UpdateName
                         )
             , el [ width fill ] <|
-                html <|
-                    TextField.filled
-                        (TextField.config
-                            |> TextField.setLabel (Just "Age")
-                            |> TextField.setValue (Just <| ageToStr model.age)
-                            |> TextField.setOnInput UpdateAge
-                        )
+                ageDropDown model
             ]
         , el [ padding 3 ] none
         , el [ centerX ] <| relationTextOrSelect model
@@ -96,37 +93,36 @@ inputNameAgeRelation model =
         , submitNAR model
         ]
 
+
 ageDropDown : Model -> Element Msg
 ageDropDown model =
-         html <|
-            Select.filled
-                (Select.config
-                    |> Select.setLabel (Just "Age Group")
-                    |> Select.setSelected model.relation
-                    |> Select.setOnChange UpdateAge
+    html <|
+        Select.outlined
+            (Select.config
+                |> Select.setLabel (Just "Age Group")
+                |> Select.setSelected (Just model.age)
+                |> Select.setOnChange UpdateAge
+            )
+            (SelectItem.selectItem
+                (SelectItem.config { value = "" })
+                [ Html.text "" ]
+            )
+        <|
+            List.map
+                (\x ->
+                    SelectItem.selectItem
+                        (SelectItem.config { value = x })
+                        [ Html.text x ]
                 )
-                (SelectItem.selectItem
-                    (SelectItem.config { value = "" })
-                    [ Html.text "" ]
-                )
-            <|
-                SelectItem.selectItem
-                    (SelectItem.config { value = "Other" })
-                    [ Html.text "Other" ]
-                    :: List.map
-                        (\x ->
-                            SelectItem.selectItem
-                                (SelectItem.config { value = x })
-                                [ Html.text x ]
-                        )
-                        model.relationsList
+                ageGroup
+
 
 relationTextOrSelect : Model -> Element Msg
 relationTextOrSelect model =
     if model.showRelationText == True then
         el [ width fill ] <|
             html <|
-                TextField.filled
+                TextField.outlined
                     (TextField.config
                         |> TextField.setLabel (Just "Relation")
                         |> TextField.setValue (Just <| toStr model.relation)
@@ -135,7 +131,7 @@ relationTextOrSelect model =
 
     else
         html <|
-            Select.filled
+            Select.outlined
                 (Select.config
                     |> Select.setLabel (Just "Relation")
                     |> Select.setSelected model.relation
@@ -171,7 +167,7 @@ inputRSVP model =
             ]
           <|
             html <|
-                Select.filled
+                Select.outlined
                     (Select.config
                         |> Select.setLabel (Just "RSVP")
                         |> Select.setSelected model.rsvp
@@ -225,9 +221,8 @@ submitNAR model =
         narFieldsFilled m =
             if m.name == "" then
                 False
-
-            else if m.age == Nothing then
-                False
+                -- else if m.age == Nothing then
+                --     False
 
             else if m.relation == Nothing then
                 False
@@ -255,8 +250,15 @@ inputEnd model =
         [ el [] <|
             backButton "Add More"
                 AddMore
-        , paragraph []
-            [ text "Yay! You have been added to the tree."
+        , el [ padding 4 ] none
+        , paragraph
+            [ Font.family
+                [ Font.typeface "Courgette" ]
+            , Font.bold
+            , Font.size 18
+            , Font.color (rgb255 93 35 234)
+            ]
+            [ text "Looking forward to see you!"
             ]
         ]
 
@@ -277,6 +279,7 @@ backButton strVal msg =
             )
             strVal
 
+
 textButton : String -> Msg -> Element Msg
 textButton label msg =
     el [] <|
@@ -285,7 +288,16 @@ textButton label msg =
                 (Button.config |> Button.setOnClick msg)
                 label
 
+
 inputAwaitResp : Element Msg
 inputAwaitResp =
-    text
-        "Please wait.."
+    el
+        [ Font.family
+            [ Font.typeface "Courgette" ]
+        , Font.bold
+        , Font.size 18
+        , Font.color (rgb255 93 35 234)
+        ]
+    <|
+        text
+            "Please wait.."
