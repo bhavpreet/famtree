@@ -22,6 +22,14 @@ defaultRelationsList =
     , "Mother"
     ]
 
+ageGroup =
+    [ "Young at heart"
+    , "Elder"
+    , "Middle aged"
+    , "Youth"
+    , "Teenager"
+    , "Child"
+    ]
 
 rsvpList =
     [ "Yes"

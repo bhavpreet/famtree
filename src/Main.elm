@@ -73,15 +73,23 @@ viewLogic model =
 
 bottomHalf : Model -> Element Msg -> Element Msg
 bottomHalf model uiElem =
-    column [ centerX ]
-        [ el [ height (px <| model.window.height // 2) ]
-            none
-        , el [ padding 20 ] none
-        , el
+    column
+        [ centerX
+        , alignBottom
+        ]
+        [ --  el [ height (px <| model.window.height // 2) ]
+          --     none
+          -- , el [ padding 20 ] none
+          -- ,
+          el
             [ height fill
             , width fill
             ]
             uiElem
+        , el
+            [ padding (model.window.height // 20)
+            ]
+            none
         ]
 
 

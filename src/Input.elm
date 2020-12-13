@@ -9,43 +9,62 @@ import Material.TextField as TextField
 import Model exposing (..)
 import Sheets exposing (..)
 import Sketch exposing (..)
+import InfoPage exposing (raisedButton)
 
 
 inputRelatedTo : Model -> Element Msg
 inputRelatedTo model =
     column []
-        [ el
-            [ centerX
-            , padding 20
+        [ el [] <|
+            textButton "Related to ? "
+                NoOp
+        , row
+            [ spacing 20
             ]
-          <|
-            html <|
-                Select.filled
-                    (Select.config
-                        |> Select.setLabel (Just "Related To")
-                        |> Select.setSelected (Just "")
-                        |> Select.setOnChange UpdateRelatedTo
-                    )
-                    (SelectItem.selectItem
-                        (SelectItem.config { value = "" })
-                        [ Html.text "" ]
-                    )
-                <|
-                    List.map
-                        (\x ->
-                            SelectItem.selectItem
-                                (SelectItem.config { value = x })
-                                [ Html.text x ]
-                        )
-                        relatedToList
+            [ el
+                [ centerX
+                ]
+              <|
+                html <|
+                    Button.outlined
+                        (Button.config |> Button.setOnClick (UpdateRelatedTo "Natasha"))
+                        "Natasha"
+            , el
+                [ centerX
+                ]
+              <|
+                html <|
+                    Button.outlined
+                        (Button.config |> Button.setOnClick (UpdateRelatedTo "Bhavpreet"))
+                        "Bhavpreet"
+
+            -- Select.filled
+            --     (Select.config
+            --         |> Select.setLabel (Just "Related To")
+            --         |> Select.setSelected (Just "")
+            --         |> Select.setOnChange UpdateRelatedTo
+            --     )
+            --     (SelectItem.selectItem
+            --         (SelectItem.config { value = "" })
+            --         [ Html.text "" ]
+            --     )
+            -- <|
+            --     List.map
+            --         (\x ->
+            --             SelectItem.selectItem
+            --                 (SelectItem.config { value = x })
+            --                 [ Html.text x ]
+            --         )
+            --         relatedToList
+            ]
         ]
 
 
 inputNameAgeRelation : Model -> Element Msg
 inputNameAgeRelation model =
     column
-        [ padding 20
-        , centerX
+        [ centerX
+        , paddingXY 20 0
         ]
         [ el [] <|
             backButton (backButtonStr model)
@@ -77,6 +96,30 @@ inputNameAgeRelation model =
         , submitNAR model
         ]
 
+ageDropDown : Model -> Element Msg
+ageDropDown model =
+         html <|
+            Select.filled
+                (Select.config
+                    |> Select.setLabel (Just "Age Group")
+                    |> Select.setSelected model.relation
+                    |> Select.setOnChange UpdateAge
+                )
+                (SelectItem.selectItem
+                    (SelectItem.config { value = "" })
+                    [ Html.text "" ]
+                )
+            <|
+                SelectItem.selectItem
+                    (SelectItem.config { value = "Other" })
+                    [ Html.text "Other" ]
+                    :: List.map
+                        (\x ->
+                            SelectItem.selectItem
+                                (SelectItem.config { value = x })
+                                [ Html.text x ]
+                        )
+                        model.relationsList
 
 relationTextOrSelect : Model -> Element Msg
 relationTextOrSelect model =
@@ -234,6 +277,13 @@ backButton strVal msg =
             )
             strVal
 
+textButton : String -> Msg -> Element Msg
+textButton label msg =
+    el [] <|
+        html <|
+            Button.text
+                (Button.config |> Button.setOnClick msg)
+                label
 
 inputAwaitResp : Element Msg
 inputAwaitResp =
