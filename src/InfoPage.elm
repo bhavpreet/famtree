@@ -14,6 +14,8 @@ infoPage model =
         layout
             [ width (px model.window.width)
             , height (px model.window.height)
+
+            -- , Background.color (rgb255 249 223 179)
             , behindContent <|
                 image
                     [ width (fill |> maximum 350)
@@ -81,7 +83,7 @@ gurmukhiHeader w h =
     column
         [ centerX
         , Font.bold
-        , Font.color (rgb255 191 153 46)
+        , Font.color (rgb255 158 130 48)
         , spacing 4
         ]
         [ row
@@ -114,25 +116,27 @@ message1 model =
         -- , Background.color (rgb255 0 0 0)
         , centerX
         , centerY
-        , spacing 3
+        , spacing 0
         , paddingXY 70 0
         , Font.family
             [ Font.typeface "Courgette"
             ]
+        , Font.size 15
 
         -- , centerY
         ]
-        [ el [ paddingXY 0 10 ] none
+        [ el [ paddingXY 0 (model.window.height // 54) ] none
         , gurmukhiHeader model.window.width model.window.height
         , el [ padding 3 ] none
-        , paragraph
-            []
-            [ text "You are cordially invited to the wedding ceremony of" ]
+        , paragraph []
+            [ text "You are cordially invited to the" ]
+        , paragraph []
+            [ text "wedding ceremony of" ]
         , el [ padding 9 ] none
         , paragraph
             [ Font.family [ Font.sansSerif ]
             , Font.bold
-            , Font.size 22
+            , Font.size 20
             , Font.color (rgb255 214 105 21)
             ]
             [ text "BHAVPREET SINGH" ]
@@ -147,7 +151,7 @@ message1 model =
         , paragraph
             [ Font.family [ Font.sansSerif ]
             , Font.bold
-            , Font.size 22
+            , Font.size 20
             , Font.color (rgb255 214 105 21)
             ]
             [ text "NATASHA SINGH" ]
@@ -161,7 +165,7 @@ message1 model =
         , paragraph
             [ Font.family [ Font.sansSerif ]
             , Font.bold
-            , Font.size 22
+            , Font.size 20
 
             -- , Font.color (rgb255 94 105 60)
             ]
@@ -236,15 +240,14 @@ a new possibility of growth.""" ]
 
 infoButtonLogic : Model -> Element Msg
 infoButtonLogic model =
-    if model.infoOK1 == False then
-        raisedButton "Welcome!" InfoOK
+    let
+        button =
+            if model.infoOK1 == False then
+                raisedButton "RSVP" InfoOK
 
-    else
-        raisedButton "Next" InfoOK
-
-
-raisedButton : String -> Msg -> Element Msg
-raisedButton label msg =
+            else
+                raisedButton "Next" InfoOK
+    in
     column
         [ -- height fill
           -- , width fill
@@ -255,17 +258,26 @@ raisedButton label msg =
             [ alignBottom
             , centerX
             ]
-          <|
-            html <|
-                Button.raised
-                    (Button.config |> Button.setOnClick msg)
-                    label
+            button
         , el
-            [ padding 50
+            [ padding (model.window.height // 39)
             , alignBottom
             ]
             none
         ]
+
+
+raisedButton : String -> Msg -> Element Msg
+raisedButton label msg =
+    el
+        [ alignBottom
+        , centerX
+        ]
+    <|
+        html <|
+            Button.raised
+                (Button.config |> Button.setOnClick msg)
+                label
 
 
 linkColor : Color
