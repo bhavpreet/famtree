@@ -31,6 +31,7 @@ let sketch = function(p) {
 
     p.preload = function() {
         table = p.loadTable('https://docs.google.com/spreadsheets/d/1ugOJeRIHwUR36fp1-MawZqqw1_X29q4nrLiKM_gu9FI/gviz/tq\?tqx\=out:csv\&sheet\=Sheet1', 'csv', 'header');
+        font = p.loadFont ('Good Brush.otf');
     }
 
     p.windowResized = function () {
@@ -73,33 +74,80 @@ let sketch = function(p) {
             t.show(p);
         }
 
-        // leafs
+        // flowers
         for (var i=3; i < tree.length; i++) {
             let scale = 25;
             t = tree[i];
-            p.push();
+
             dir = p5.Vector.sub(t.end, t.begin);
+
+            let v0 = p.createVector(dir.x, dir.y);
+            v0.normalize();
+            //v0.mult(2);
+
+            // p.fill(230,2,45);
+            // p.noStroke();
+            // p.ellipse(t.leaf.x,t.leaf.y, 5, 5); //red
+
+            //flowers to be written here
+
+            p.push();
             p.translate(t.begin.x, t.begin.y);
             p.rotate(dir.heading());
             p.translate(dir.mag()+(scale/2.3), 0);
             p.imageMode(p.CENTER);
             p.rotate(p.PI/2);
             p.image(elder, 0, 0, scale, scale);
+            p.pop();
 
-            let d = p.dist(p.mouseX, p.mouseY, t.leaf.x, t.leaf.y);
-            if (d < 5) {
+        }
+
+        // text
+        for (var i=3; i < tree.length; i++) {
+            let scale = 25;
+            t = tree[i];
+
+            dir = p5.Vector.sub(t.end, t.begin);
+
+            let v0 = p.createVector(dir.x, dir.y);
+            v0.normalize();
+            //v0.mult(2);
+
+            //greenzone
+            // p.noStroke();
+            // p.fill(2,200,5);
+            // p.ellipse(v0.x*scale*0.75 + t.leaf.x, v0.y*scale*0.75 + t.leaf.y, scale/3, scale/3); //green
+
+            //text to be written here
+
+            let d = p.dist(p.mouseX, p.mouseY, v0.x*scale*0.75 + t.leaf.x, v0.y*scale*0.75 + t.leaf.y);
+            //console.log (dir.x);
+            if (d < scale/3) {
+                p.push();
+                p.translate(t.begin.x, t.begin.y);
+                p.translate(dir);
                 p.fill(0);
-                p.textAlign(p.CENTER);
+                //p.textAlign(p.CENTER);
                 p.textSize(14);
                 p.noStroke();
-                p.text(t.entry.name, 0, 0 + 8 - 20);
+                p.textFont(font);
+
+                // p.fill(230,2,45);
+                // p.text(t.entry.name, 0, 0);
+
+                let bbox = font.textBounds(t.entry.name, 10, 30, 12);
+                p.fill(255);
+                p.stroke(0);
+                // p.rect(bbox.x + v0.x*scale*4, bbox.y + v0.y*scale*4, bbox.w, bbox.h);
+                // p.fill(0);
+                // p.noStroke();
+
+                p.text(t.entry.name, v0.x*scale*2, v0.y*scale*2);
                 // p.fill(234,98,0);
                 // p.stroke(0);
                 // p.ellipse(leaf.x, leaf.y, 8,8);
+                p.pop();
             }
-
-            p.pop();
-
         }
     }
 };
@@ -168,10 +216,10 @@ function drawBranch(entry, isNew) {    // mouseClick
     leaves[leaves.length-1].angle = angle;
 
     //color code name with alpha, rsvp
-    //age 
+    //age
     //add wedding info
     //new entry- new color, details- name
-    
+
 }
 
 
