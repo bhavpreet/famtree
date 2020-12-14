@@ -33,7 +33,7 @@ function Branch (begin, end, leaf) {
 		let scale = 25/2;
 		let leaf = newEnd;
 		var b = new Branch (this.end, newEnd, leaf);
-		console.log(newEnd.x, newEnd.y, leaf.x, leaf.y);
+		//console.log(newEnd.x, newEnd.y, leaf.x, leaf.y);
 		return b;
 	};
 }
