@@ -79,25 +79,55 @@ let sketch = function(p) {
             t = tree[i];
             p.push();
             dir = p5.Vector.sub(t.end, t.begin);
+
+            let v0 = p.createVector(dir.x, dir.y);
+            v0.normalize();
+            //v0.mult(2);
+
+            p.fill(230,2,45); 
+            p.noStroke();
+            p.ellipse(t.leaf.x,t.leaf.y, 5, 5); //red
+
+            //greenzone
+            p.noStroke();
+            p.fill(2,200,5);
+            p.ellipse(v0.x*scale*0.75 + t.leaf.x, v0.y*scale*0.75 + t.leaf.y, scale/3, scale/3); //green
+
             p.translate(t.begin.x, t.begin.y);
+
+            
+
+            // p.noStroke();
+            // p.fill(2,2,235);
+            // p.ellipse(dir.x*2,0 + dir.y*2, 5, 5); //blue
+
+
+
+            let d = p.dist(p.mouseX, p.mouseY, v0.x*scale*0.75 + t.leaf.x, v0.y*scale*0.75 + t.leaf.y);
+            //console.log (dir.x);
+            if (d < scale/3) {
+                p.push();
+                p.translate(dir);
+                p.fill(0);
+                //p.textAlign(p.CENTER);
+                p.textSize(14);
+                p.noStroke();
+
+                // p.fill(230,2,45);
+                // p.text(t.entry.name, 0, 0);
+                p.fill(2,200,5);
+                p.text(t.entry.name, v0.x*scale*2, v0.y*scale*2);
+                // p.fill(234,98,0);
+                // p.stroke(0);
+                // p.ellipse(leaf.x, leaf.y, 8,8);
+                p.pop();
+            }
+
             p.rotate(dir.heading());
             p.translate(dir.mag()+(scale/2.3), 0);
             p.imageMode(p.CENTER);
             p.rotate(p.PI/2);
             p.image(elder, 0, 0, scale, scale);
-
-            let d = p.dist(p.mouseX, p.mouseY, t.leaf.x, t.leaf.y);
-            if (d < 5) {
-                p.fill(0);
-                p.textAlign(p.CENTER);
-                p.textSize(14);
-                p.noStroke();
-                p.text(t.entry.name, 0, 0 + 8 - 20);
-                // p.fill(234,98,0);
-                // p.stroke(0);
-                // p.ellipse(leaf.x, leaf.y, 8,8);
-            }
-
             p.pop();
 
         }
