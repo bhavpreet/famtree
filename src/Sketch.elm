@@ -48,8 +48,7 @@ encode : Model -> E.Value
 encode model =
     E.object
         [ ( "name", E.string model.name )
-
-        -- , ( "age", E.string model.age )
+        , ( "age", E.string model.age )
         , ( "relation", E.string (toStr model.relation) )
         , ( "relatedTo", E.string (toStr model.relatedTo) )
         , ( "rsvp", E.string (toStr model.rsvp) )

@@ -298,7 +298,7 @@ infoButton model =
                     |> Button.setIcon (Just (Button.icon "info_outlined"))
                     |> Button.setOnClick Model.BackToInfoPage
                 )
-                "Info"
+                "Venue"
 
 
 

@@ -13,7 +13,7 @@ function Branch (begin, end, level) {
 		//making of the first branch (root)
 		p.push();
 		p.stroke (0);
-		let sWeight = 40 / (this.level*5);
+		let sWeight = 15 / ((this.level+1) * 0.8); // +1 to acomodate for 0
 		p.strokeWeight(sWeight);
 		p.line (this.begin.x, this.begin.y, this.end.x, this.end.y);
 		p.pop();
