@@ -97,7 +97,14 @@ let sketch = function(p) {
             p.translate(dir.mag()+(scale/2.3), 0);
             p.imageMode(p.CENTER);
             p.rotate(p.PI/2);
-            p.image(elder, 0, 0, scale, scale);
+
+            let d = p.dist(p.mouseX, p.mouseY, v0.x*scale*0.75 + t.leaf.x, v0.y*scale*0.75 + t.leaf.y);
+            if (d < scale/3 || t.entry.isNew  == true ) {
+                p.image(elder, 0, 0, scale * 3, scale * 3);
+            } else {
+                p.image(elder, 0, 0, scale, scale);
+            }
+
             p.pop();
 
         }
@@ -122,7 +129,7 @@ let sketch = function(p) {
 
             let d = p.dist(p.mouseX, p.mouseY, v0.x*scale*0.75 + t.leaf.x, v0.y*scale*0.75 + t.leaf.y);
             //console.log (dir.x);
-            if (d < scale/3) {
+            if (d < scale/3 || t.entry.isNew) {
                 p.push();
                 p.translate(t.begin.x, t.begin.y);
                 p.translate(dir);
@@ -135,7 +142,7 @@ let sketch = function(p) {
                 // p.fill(230,2,45);
                 // p.text(t.entry.name, 0, 0);
 
-                let bbox = font.textBounds(t.entry.name, 10, 30, 12);
+                // let bbox = font.textBounds(t.entry.name, 10, 30, 12);
                 p.fill(255);
                 p.stroke(0);
                 // p.rect(bbox.x + v0.x*scale*4, bbox.y + v0.y*scale*4, bbox.w, bbox.h);
@@ -191,9 +198,7 @@ function drawEvenOdd(bnTree, level, entry) {
     return angle;
 }
 
-function drawBranch(entry, isNew) {    // mouseClick
-    // console.log("entry = ", entry.relatedTo);
-    var angle = 0;
+function drawBranch(entry) {
     if (entry.relatedTo == "Natasha") {
         var maxElems = Math.pow(2, levelN);
         // console.log("maxElems = ", maxElems, "levelN = ", levelN)
@@ -209,12 +214,6 @@ function drawBranch(entry, isNew) {    // mouseClick
         }
         angle = drawEvenOdd(treeB, levelB, entry);
     }
-    var leaf = tree[tree.length-1].end.copy();
-    entry.isNew = isNew;
-    leaf.entry = entry;
-    leaves.push(leaf);
-    leaves[leaves.length-1].angle = angle;
-
     //color code name with alpha, rsvp
     //age
     //add wedding info

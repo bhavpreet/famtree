@@ -1,6 +1,7 @@
 module Model exposing (..)
 
 import Http as Http
+import Browser.Dom as Dom
 
 
 
@@ -96,3 +97,4 @@ type Msg
     | FetchRelations (Result Http.Error String)
     | ViewportChange Window
     | InfoOK
+    | FocusResult (Result Dom.Error ())

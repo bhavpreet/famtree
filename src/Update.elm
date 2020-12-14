@@ -1,5 +1,6 @@
 module Update exposing (update)
 
+import Browser.Dom as Dom
 import Csv as Csv
 import Model exposing (..)
 import Sheets exposing (..)
@@ -24,14 +25,26 @@ update msg model =
             , Cmd.none
             )
 
+        FocusResult result ->
+            case result of
+                Err (Dom.NotFound id) ->
+                    ( model, Cmd.none )
+
+                Ok () ->
+                    ( model, Cmd.none )
+
         UpdateRelation relation ->
             case relation of
                 "Other" ->
+                    let
+                        focusMe_ =
+                            Task.attempt FocusResult (Dom.focus "relation-other-field")
+                    in
                     ( { model
                         | showRelationText = True
                         , relation = Nothing
                       }
-                    , Cmd.none
+                    , focusMe_
                     )
 
                 _ ->
@@ -61,6 +74,7 @@ update msg model =
             ( { model | infoOK2 = False }
             , Cmd.none
             )
+
         BackToInputRelatedTo ->
             ( { model
                 | relatedTo = Nothing

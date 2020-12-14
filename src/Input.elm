@@ -129,13 +129,18 @@ ageDropDown model =
 relationTextOrSelect : Model -> Element Msg
 relationTextOrSelect model =
     if model.showRelationText == True then
-        el [ width fill ] <|
+        el
+            [ width fill
+            ]
+        <|
             html <|
                 TextField.outlined
                     (TextField.config
                         |> TextField.setLabel (Just "Relation")
                         |> TextField.setValue (Just <| toStr model.relation)
                         |> TextField.setOnInput UpdateRelation
+                        |> TextField.setAttributes
+                            [ HAttr.id "relation-other-field" ]
                     )
 
     else
