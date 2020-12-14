@@ -52,11 +52,11 @@ let sketch = function(p) {
         // a vector has magnitude and direction
         var a = p.createVector (p.width/2, p.height); //startpoint
         var b = p.createVector (p.width/2, p.height-100); //endpoint
-        var root = new Branch (a, b, null); //starting first branch line |
+        var root = new Branch (a, b, 1); //starting first branch line |
         tree[0] = root; //storing the root in the tree array
-        tree.push(tree[0].branch(p, -p.PI/4));
+        tree.push(tree[0].branch(p, -p.PI/4, 1));
         treeN.push(tree[tree.length-1]);
-        tree.push(tree[0].branch(p, p.PI/6));
+        tree.push(tree[0].branch(p, p.PI/6, 1));
         treeB.push(tree[tree.length-1]);
 
         //var newBranch = root.branch(); //new branch came out of the root
@@ -98,11 +98,23 @@ let sketch = function(p) {
             p.imageMode(p.CENTER);
             p.rotate(p.PI/2);
 
-            let d = p.dist(p.mouseX, p.mouseY, v0.x*scale*0.75 + t.leaf.x, v0.y*scale*0.75 + t.leaf.y);
+            let d = p.dist(p.mouseX, p.mouseY, v0.x*scale*0.75 + t.end.x, v0.y*scale*0.75 + t.end.y);
+
+            //ageGroup = [ "Young at 💖", "Above 50", "30-50", "20-30", "< 20"]
+
+            img = child;
+            if (t.entry.age  == "Young at 💖" ) {
+                img = child;
+            } else if (t.entry.age  == "Above 50" ) {
+                img = elder;
+            } else if (t.entry.age  == "30-50" ) {
+                img = child;
+            }
+
             if (d < scale/3 || t.entry.isNew  == true ) {
-                p.image(elder, 0, 0, scale * 3, scale * 3);
+                p.image(img, 0, 0, scale * .2, scale * .2);
             } else {
-                p.image(elder, 0, 0, scale, scale);
+                p.image(img, 0, 0, scale, scale);
             }
 
             p.pop();
@@ -127,7 +139,7 @@ let sketch = function(p) {
 
             //text to be written here
 
-            let d = p.dist(p.mouseX, p.mouseY, v0.x*scale*0.75 + t.leaf.x, v0.y*scale*0.75 + t.leaf.y);
+            let d = p.dist(p.mouseX, p.mouseY, v0.x*scale*0.75 + t.end.x, v0.y*scale*0.75 + t.end.y);
             //console.log (dir.x);
             if (d < scale/3 || t.entry.isNew) {
                 p.push();
@@ -138,24 +150,13 @@ let sketch = function(p) {
                 p.textSize(14);
                 p.noStroke();
                 p.textFont(font);
-
-                // p.fill(230,2,45);
-                // p.text(t.entry.name, 0, 0);
-
-                // let bbox = font.textBounds(t.entry.name, 10, 30, 12);
                 p.fill(255);
                 p.stroke(0);
-                // p.rect(bbox.x + v0.x*scale*4, bbox.y + v0.y*scale*4, bbox.w, bbox.h);
-                // p.fill(0);
-                // p.noStroke();
-
                 p.text(t.entry.name, v0.x*scale*2, v0.y*scale*2);
-                // p.fill(234,98,0);
-                // p.stroke(0);
-                // p.ellipse(leaf.x, leaf.y, 8,8);
                 p.pop();
             }
         }
+
     }
 };
 
@@ -184,17 +185,18 @@ function drawEvenOdd(bnTree, level, entry) {
         // console.log("parent: ", parent);
         // console.log("parent node: ", bnTree[parent]);
         angle = -gp.PI/4;
-        tree.push(bnTree[parent].branch(gp, angle));
+        tree.push(bnTree[parent].branch(gp, angle, level));
     } else {
         // console.log("odd");
         parent = (bnTree.length - 2) / 2;
         // console.log("parent: ", parent);
         // console.log("parent node: ", bnTree[parent]);
         angle = gp.PI/6;
-        tree.push(bnTree[parent].branch(gp, angle));
+        tree.push(bnTree[parent].branch(gp, angle, level));
     }
-    bnTree.push(tree[tree.length-1]);
     tree[tree.length-1].entry = entry;
+    tree[tree.length-1].level = level;
+    bnTree.push(tree[tree.length-1]);
     return angle;
 }
 
@@ -207,7 +209,7 @@ function drawBranch(entry) {
         }
         angle = drawEvenOdd(treeN, levelN, entry);
     } else if (entry.relatedTo == "Bhavpreet") {
-        var maxElems = Math.pow(2, levelN);
+        var maxElems = Math.pow(2, levelB);
         // console.log("maxElems = ", maxElems, "levelN = ", levelN)
         if (treeB.length - (2 * levelB + 1) == maxElems) {
             levelB += 1
