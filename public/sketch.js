@@ -152,6 +152,8 @@ let sketch = function(p) {
                 p.textFont(font);
                 p.fill(255);
                 p.stroke(0);
+                p.textAlign(p.CENTER);
+                // p.text(t.entry.name, v0.x, v0.y);
                 p.text(t.entry.name, v0.x*scale*2, v0.y*scale*2);
                 p.pop();
             }
