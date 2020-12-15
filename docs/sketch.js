@@ -49,7 +49,7 @@ let sketch = function(p) {
         elder = p.loadImage("elder.png");
         // vector here stores the start point and end point
         // a vector has magnitude and direction
-        var a = p.createVector (p.width/2, p.height); //startpoint
+        var a = p.createVector (p.width/2, p.height -15); //startpoint
         var b = p.createVector (p.width/2, p.height-100); //endpoint
         var root = new Branch (a, b, 0); //starting first branch line |
         tree[0] = root; //storing the root in the tree array
@@ -158,7 +158,7 @@ let sketch = function(p) {
                 p.pop();
             }
         }
-
+		// p.noLoop();
     }
 };
 
