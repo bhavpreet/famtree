@@ -204,14 +204,14 @@ function drawEvenOdd(bnTree, level, entry) {
 }
 
 function drawBranch(entry) {
-    if (entry.relatedTo == "Bride") {
+    if (entry.relatedTo == "Natasha") {
         var maxElems = Math.pow(2, levelN);
         angle = drawEvenOdd(treeN, levelN, entry);
         if (treeN.length + 1 == maxElems) { // +1 to acomodated for predrawn node 
             levelN += 1
         }
         // console.log("maxElems = ", maxElems, "levelN = ", levelN);
-    } else if (entry.relatedTo == "Groom") {
+    } else if (entry.relatedTo == "Bhavpreet") {
         var maxElems = Math.pow(2, levelB) ;
         angle = drawEvenOdd(treeB, levelB, entry);
         if (treeB.length + 1== maxElems) { // +1 to acomodated for predrawn node 
