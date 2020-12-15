@@ -35,7 +35,7 @@ update msg model =
 
         UpdateRelation relation ->
             case relation of
-                "Other" ->
+                "Add New" ->
                     let
                         focusMe_ =
                             Task.attempt FocusResult (Dom.focus "relation-other-field")
@@ -198,13 +198,19 @@ update msg model =
 
         InfoOK ->
             if model.infoOK1 == True then
-                ( { model | infoOK1 = True }
+                ( { model
+                    | infoOK1 = True
+                    , showRelationText = False
+                  }
                 , Cmd.none
                 )
 
             else
                 -- ( { model | infoOK1 = True }
-                ( { model | infoOK2 = True }
+                ( { model
+                    | infoOK2 = True
+                    , showRelationText = False
+                  }
                 , Cmd.none
                 )
 

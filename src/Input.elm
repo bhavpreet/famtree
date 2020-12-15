@@ -157,8 +157,8 @@ relationTextOrSelect model =
                 )
             <|
                 SelectItem.selectItem
-                    (SelectItem.config { value = "Other" })
-                    [ Html.text "Other" ]
+                    (SelectItem.config { value = "Add New" })
+                    [ Html.text "Add New" ]
                     :: List.map
                         (\x ->
                             SelectItem.selectItem
