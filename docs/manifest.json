@@ -3,8 +3,8 @@
   "name": "N + B",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "192x192",
+      "src": "elder.png",
+      "sizes": "102x160",
       "type": "image/png"
     }
   ],

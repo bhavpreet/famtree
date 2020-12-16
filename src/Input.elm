@@ -34,16 +34,16 @@ inputRelatedTo model =
               <|
                 html <|
                     Button.outlined
-                        (Button.config |> Button.setOnClick (UpdateRelatedTo "Bride"))
-                        "Bride"
+                        (Button.config |> Button.setOnClick (UpdateRelatedTo "Natasha"))
+                        "Natasha"
             , el
                 [ centerX
                 ]
               <|
                 html <|
                     Button.outlined
-                        (Button.config |> Button.setOnClick (UpdateRelatedTo "Groom"))
-                        "Groom"
+                        (Button.config |> Button.setOnClick (UpdateRelatedTo "Bhavpreet"))
+                        "Bhavpreet"
 
             -- Select.outlined
             --     (Select.config
@@ -157,8 +157,8 @@ relationTextOrSelect model =
                 )
             <|
                 SelectItem.selectItem
-                    (SelectItem.config { value = "Other" })
-                    [ Html.text "Other" ]
+                    (SelectItem.config { value = "Add New" })
+                    [ Html.text "Add New" ]
                     :: List.map
                         (\x ->
                             SelectItem.selectItem
@@ -295,10 +295,10 @@ infoButton model =
         html <|
             Button.text
                 (Button.config
-                    |> Button.setIcon (Just (Button.icon "info_outlined"))
+                    |> Button.setIcon (Just (Button.icon "navigate_before"))
                     |> Button.setOnClick Model.BackToInfoPage
                 )
-                "Info"
+                "Venue"
 
 
 

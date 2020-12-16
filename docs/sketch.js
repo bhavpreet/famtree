@@ -9,12 +9,11 @@
 var gp;
 var tree = [];
 var leaves = [];
-var count = 0;
 var table;
 var treeB = [];
-var levelB = 0;
+var levelB = 2;
 var treeN = [];
-var levelN = 0;
+var levelN = 2;
 
 var height = 400
 
@@ -51,13 +50,15 @@ let sketch = function(p) {
         eldest = p.loadImage("01_eldest.png");
         // vector here stores the start point and end point
         // a vector has magnitude and direction
-        var a = p.createVector (p.width/2, p.height); //startpoint
+        var a = p.createVector (p.width/2, p.height -15); //startpoint
         var b = p.createVector (p.width/2, p.height-100); //endpoint
-        var root = new Branch (a, b, 1); //starting first branch line |
+        var root = new Branch (a, b, 0); //starting first branch line |
         tree[0] = root; //storing the root in the tree array
         tree.push(tree[0].branch(p, -p.PI/4, 1));
+        tree[tree.length-1].entry = makeEntry(0);
         treeN.push(tree[tree.length-1]);
         tree.push(tree[0].branch(p, p.PI/6, 1));
+        tree[tree.length-1].entry = makeEntry(1);
         treeB.push(tree[tree.length-1]);
 
         //var newBranch = root.branch(); //new branch came out of the root
@@ -76,8 +77,8 @@ let sketch = function(p) {
         }
 
         // flowers
-        for (var i=3; i < tree.length; i++) {
-            let scale = 25;
+        for (var i=1; i < tree.length; i++) {
+            let scale = 35;
             t = tree[i];
 
             dir = p5.Vector.sub(t.end, t.begin);
@@ -95,11 +96,9 @@ let sketch = function(p) {
             p.push();
             p.translate(t.begin.x, t.begin.y);
             p.rotate(dir.heading());
-            p.translate(dir.mag()+(scale/2.3), 0);
+            p.translate(dir.mag()+(scale/2.1), 0);
             p.imageMode(p.CENTER);
             p.rotate(p.PI/2);
-
-            let d = p.dist(p.mouseX, p.mouseY, v0.x*scale*0.75 + t.end.x, v0.y*scale*0.75 + t.end.y);
 
             //ageGroup = [ "Young at 💖", "Above 50", "30-50", "20-30", "< 20"]
 
@@ -116,8 +115,9 @@ let sketch = function(p) {
                 img = young;
             }
 
+            let d = p.dist(p.mouseX, p.mouseY, v0.x*scale*0.75 + t.end.x, v0.y*scale*0.75 + t.end.y);
             if (d < scale/3 || t.entry.isNew  == true ) {
-                p.image(img, 0, 0, scale * .2, scale * .2);
+                p.image(img, 0, 0, scale * 2.1, scale * 2.1);
             } else {
                 p.image(img, 0, 0, scale, scale);
             }
@@ -127,8 +127,8 @@ let sketch = function(p) {
         }
 
         // text
-        for (var i=3; i < tree.length; i++) {
-            let scale = 25;
+        for (var i=1; i < tree.length; i++) {
+            let scale = 35;
             t = tree[i];
 
             dir = p5.Vector.sub(t.end, t.begin);
@@ -157,11 +157,13 @@ let sketch = function(p) {
                 p.textFont(font);
                 p.fill(255);
                 p.stroke(0);
+                p.textAlign(p.CENTER);
+                // p.text(t.entry.name, v0.x, v0.y);
                 p.text(t.entry.name, v0.x*scale*2, v0.y*scale*2);
                 p.pop();
             }
         }
-
+		// p.noLoop();
     }
 };
 
@@ -201,6 +203,7 @@ function drawEvenOdd(bnTree, level, entry) {
     }
     tree[tree.length-1].entry = entry;
     tree[tree.length-1].level = level;
+    // console.log("Level = ", level);
     bnTree.push(tree[tree.length-1]);
     return angle;
 }
@@ -208,18 +211,19 @@ function drawEvenOdd(bnTree, level, entry) {
 function drawBranch(entry) {
     if (entry.relatedTo == "Natasha") {
         var maxElems = Math.pow(2, levelN);
-        // console.log("maxElems = ", maxElems, "levelN = ", levelN)
-        if (treeN.length - (2 * levelN + 1) == maxElems) {
+        angle = drawEvenOdd(treeN, levelN, entry);
+        if (treeN.length + 1 == maxElems) { // +1 to acomodated for predrawn node 
             levelN += 1
         }
-        angle = drawEvenOdd(treeN, levelN, entry);
+        // console.log("maxElems = ", maxElems, "levelN = ", levelN);
     } else if (entry.relatedTo == "Bhavpreet") {
-        var maxElems = Math.pow(2, levelB);
-        // console.log("maxElems = ", maxElems, "levelN = ", levelN)
-        if (treeB.length - (2 * levelB + 1) == maxElems) {
-            levelB += 1
-        }
+        var maxElems = Math.pow(2, levelB) ;
         angle = drawEvenOdd(treeB, levelB, entry);
+        if (treeB.length + 1== maxElems) { // +1 to acomodated for predrawn node 
+            levelB += 1
+            // console.log("Updateing levelB= ", levelB);
+        }
+        // console.log("maxElems = ", maxElems, "levelB = ", levelB, "lenB = ", treeB.length);
     }
     //color code name with alpha, rsvp
     //age
@@ -228,17 +232,21 @@ function drawBranch(entry) {
 
 }
 
+function makeEntry(r) {
+    return { "name" : table.getString(r, 0),
+             "relation" : table.getString(r,1),
+             "age" : table.getString(r,2),
+             "relatedTo" : table.getString(r,3),
+             "rsvp" : table.getString(r,4)
+           };
+    
+}
 
 // Call Draw branch for each element in the table
 function drawTable(table) {
     // console.log("table: ", table);
-    for (let r=0; r < table.getRowCount(); r++) {
-        entry = { "name" : table.getString(r, 0),
-                  "relation" : table.getString(r,1),
-                  "age" : table.getString(r,2),
-                  "relatedTo" : table.getString(r,3),
-                  "rsvp" : table.getString(r,4)
-                };
+    for (let r=2; r < table.getRowCount(); r++) { // 0, 1 are populated at the root level
+        entry = makeEntry(r);
         drawBranch(entry, false);
     }
 }

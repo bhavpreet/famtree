@@ -35,7 +35,7 @@ update msg model =
 
         UpdateRelation relation ->
             case relation of
-                "Other" ->
+                "Add New" ->
                     let
                         focusMe_ =
                             Task.attempt FocusResult (Dom.focus "relation-other-field")
@@ -90,22 +90,30 @@ update msg model =
             ( { model | nar = True }, Cmd.none )
 
         Submit ->
-            if model.showRelationText == True then
-                ( { model
-                    | awaitResp = True
-                  }
-                , Cmd.batch
-                    [ Task.attempt SubmitRet <| writeToSheet model
-                    , Task.attempt SubmitRelationRet <|
-                        writeNewRelationToSheet <|
-                            toStr model.relation
-                    ]
-                )
+            let
+                myTasks =
+                    [ Task.attempt SubmitRet <| writeToSheet model ]
 
-            else
-                ( { model | awaitResp = True }
-                , Task.attempt SubmitRet <| writeToSheet model
-                )
+                submitTasks =
+                    if model.showRelationText == True then
+                        if List.member (toStr model.relation) model.relationsList == True then
+                            myTasks
+
+                        else
+                            (Task.attempt SubmitRelationRet <|
+                                writeNewRelationToSheet <|
+                                    toStr model.relation
+                            )
+                                :: myTasks
+
+                    else
+                        myTasks
+            in
+            ( { model
+                | awaitResp = True
+              }
+            , Cmd.batch submitTasks
+            )
 
         SubmitRet resp ->
             -- let
@@ -198,13 +206,19 @@ update msg model =
 
         InfoOK ->
             if model.infoOK1 == True then
-                ( { model | infoOK1 = True }
+                ( { model
+                    | infoOK1 = True
+                    , showRelationText = False
+                  }
                 , Cmd.none
                 )
 
             else
                 -- ( { model | infoOK1 = True }
-                ( { model | infoOK2 = True }
+                ( { model
+                    | infoOK2 = True
+                    , showRelationText = False
+                  }
                 , Cmd.none
                 )
 

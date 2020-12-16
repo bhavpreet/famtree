@@ -1,7 +1,7 @@
 module Model exposing (..)
 
-import Http as Http
 import Browser.Dom as Dom
+import Http as Http
 
 
 
@@ -9,8 +9,8 @@ import Browser.Dom as Dom
 
 
 relatedToList =
-    [ "Bride"
-    , "Groom"
+    [ "Natasha"
+    , "Bhavpreet"
     ]
 
 
@@ -23,6 +23,7 @@ defaultRelationsList =
     , "Mother"
     ]
 
+
 ageGroup =
     [ "Young at 💖"
     , "Above 50"
@@ -30,6 +31,7 @@ ageGroup =
     , "20-30"
     , "< 20"
     ]
+
 
 rsvpList =
     [ "Yes"

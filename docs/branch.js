@@ -13,9 +13,21 @@ function Branch (begin, end, level) {
 		//making of the first branch (root)
 		p.push();
 		p.stroke (0);
-		let sWeight = 40 / (this.level*5);
+		let sWeight = 15 / ((this.level+1) * 0.8); // +1 to acomodate for 0
 		p.strokeWeight(sWeight);
-		p.line (this.begin.x, this.begin.y, this.end.x, this.end.y);
+		// p.line (this.begin.x, this.begin.y, this.end.x, this.end.y);
+		dir = p5.Vector.sub(this.end, this.begin);
+		p.translate(this.begin.x, this.begin.y);
+		// p.rotate(p.PI);
+		p.rotate(dir.heading());
+		len = dir.mag();
+		// p.curve(p.random(-2*len,2*len), 0, p.random(-15,15), 0, 0, len, len, 2*len);
+		//p.curve(p.random(-2*len,2*len), 0, 0, 0, len, 0, len, len);
+		let neg = -1;
+		if (level % 2 != 0) {
+			neg = 1;
+		}
+		p.curve(-1.3*len, neg * -len/1.3, 0, 0, len, 0, len*2.5, neg * len/2.5);
 		p.pop();
 	}
 
