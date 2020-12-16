@@ -34,8 +34,8 @@ ageGroup =
 
 
 rsvpList =
-    [ "Yes"
-    , "No"
+    [ "Happy to attend"
+    , "Unable to attend"
     ]
 
 
