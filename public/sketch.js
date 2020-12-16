@@ -44,19 +44,20 @@ let sketch = function(p) {
         p.textSize(23);
 
         // Load PNGs
-        child = p.loadImage("child.png");
-        adult = p.loadImage("adult.png");
-        elder = p.loadImage("elder.png");
+        child = p.loadImage("04_young-min.png");
+        adult = p.loadImage("03_adult-min.png");
+        elder = p.loadImage("02_elder-min.png");
+        eldest = p.loadImage("01_eldest-min.png");
         // vector here stores the start point and end point
         // a vector has magnitude and direction
-        var a = p.createVector (p.width/2, p.height -15); //startpoint
-        var b = p.createVector (p.width/2, p.height-100); //endpoint
+        var a = p.createVector (p.width/2, p.height); //startpoint
+        var b = p.createVector (p.width/2, p.height - (p.height / 4.5)); //endpoint
         var root = new Branch (a, b, 0); //starting first branch line |
         tree[0] = root; //storing the root in the tree array
-        tree.push(tree[0].branch(p, -p.PI/4, 1));
+        tree.push(tree[0].branch(p, -p.PI/3.5, 1));
         tree[tree.length-1].entry = makeEntry(0);
         treeN.push(tree[tree.length-1]);
-        tree.push(tree[0].branch(p, p.PI/6, 1));
+        tree.push(tree[0].branch(p, p.PI/5.5, 1));
         tree[tree.length-1].entry = makeEntry(1);
         treeB.push(tree[tree.length-1]);
 
@@ -105,8 +106,12 @@ let sketch = function(p) {
             if (t.entry.age  == "Young at 💖" ) {
                 img = child;
             } else if (t.entry.age  == "Above 50" ) {
-                img = elder;
+                img = eldest;
             } else if (t.entry.age  == "30-50" ) {
+                img = elder;
+            } else if (t.entry.age  == "20-30" ) {
+                img = adult;
+            } else if (t.entry.age  == "< 20"){
                 img = child;
             }
 
@@ -147,9 +152,10 @@ let sketch = function(p) {
                 p.translate(dir);
                 p.fill(0);
                 //p.textAlign(p.CENTER);
-                p.textSize(14);
-                p.noStroke();
+                p.textSize(18);
+                // p.noStroke();
                 p.textFont(font);
+                p.textLeading(120);
                 p.fill(255);
                 p.stroke(0);
                 p.textAlign(p.CENTER);
@@ -186,14 +192,14 @@ function drawEvenOdd(bnTree, level, entry) {
         parent = (bnTree.length - 1) / 2;
         // console.log("parent: ", parent);
         // console.log("parent node: ", bnTree[parent]);
-        angle = -gp.PI/4;
+        angle = -gp.PI/3.5;
         tree.push(bnTree[parent].branch(gp, angle, level));
     } else {
         // console.log("odd");
         parent = (bnTree.length - 2) / 2;
         // console.log("parent: ", parent);
         // console.log("parent node: ", bnTree[parent]);
-        angle = gp.PI/6;
+        angle = gp.PI/5.5;
         tree.push(bnTree[parent].branch(gp, angle, level));
     }
     tree[tree.length-1].entry = entry;

@@ -24,10 +24,10 @@ function Branch (begin, end, level) {
 		// p.curve(p.random(-2*len,2*len), 0, p.random(-15,15), 0, 0, len, len, 2*len);
 		//p.curve(p.random(-2*len,2*len), 0, 0, 0, len, 0, len, len);
 		let neg = -1;
-		if (level % 2 != 0) {
+		if (level % 2 == 0) {
 			neg = 1;
 		}
-		p.curve(-1.3*len, neg * -len/1.3, 0, 0, len, 0, len*2.5, neg * len/2.5);
+		p.curve(-1.3*len, neg * -len/1.3, 0, 0, len, 0, len*1.5, neg * len/1.5);
 		p.pop();
 	}
 
@@ -37,7 +37,8 @@ function Branch (begin, end, level) {
 		//p5 vector direction has an inbuilt angle
 		dir.rotate(angle);
 		//making the length shorter than prev one
-		dir.mult(0.67);
+		// dir.mult(0.62);
+		dir.mult(0.62);
 		//making a new end point for the new branch
 		var newEnd = p5.Vector.add(this.end, dir);
 		//new branch shares the previous branch's ending point

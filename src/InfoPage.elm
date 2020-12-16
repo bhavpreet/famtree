@@ -172,7 +172,7 @@ message1 model =
             [ text "17th January, 2021" ]
         , el [ padding 2 ] none
         , paragraph []
-            [ text "Anand karaj at 11am" ]
+            [ text "Anand Karaj at 11am" ]
         , el [ padding 2 ] none
         , paragraph []
             [ text "- Venue -" ]
