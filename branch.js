@@ -12,7 +12,7 @@ function Branch (begin, end, leaf) {
 	this.show = function (p) {
 		//making of the first branch (root)
 		p.stroke (0);
-		p.strokeWeight(2);
+		p.strokeWeight(1);
 		p.line (this.begin.x, this.begin.y, this.end.x, this.end.y);
 	}
 

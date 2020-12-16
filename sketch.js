@@ -59,6 +59,9 @@ let sketch = function(p) {
         tree.push(tree[0].branch(p, p.PI/6));
         treeB.push(tree[tree.length-1]);
 
+        //add text
+        // p.text('Bhavpreet', tree[1].end, tree[1].begin);
+        // p.text('Natasha', tree[1].end, tree[1].begin);
         //var newBranch = root.branch(); //new branch came out of the root
         //tree[1] = newBranch;
         //console.log(tree);
@@ -97,7 +100,7 @@ let sketch = function(p) {
             p.translate(dir.mag()+(scale/2.3), 0);
             p.imageMode(p.CENTER);
             p.rotate(p.PI/2);
-            p.image(elder, 0, 0, scale, scale);
+            p.image(elder, 0, 0, scale, scale); 
             p.pop();
 
         }
@@ -132,23 +135,21 @@ let sketch = function(p) {
                 p.noStroke();
                 p.textFont(font);
 
-                // p.fill(230,2,45);
-                // p.text(t.entry.name, 0, 0);
-
-                let bbox = font.textBounds(t.entry.name, 10, 30, 12);
                 p.fill(255);
                 p.stroke(0);
-                // p.rect(bbox.x + v0.x*scale*4, bbox.y + v0.y*scale*4, bbox.w, bbox.h);
-                // p.fill(0);
-                // p.noStroke();
-
                 p.text(t.entry.name, v0.x*scale*2, v0.y*scale*2);
-                // p.fill(234,98,0);
-                // p.stroke(0);
-                // p.ellipse(leaf.x, leaf.y, 8,8);
                 p.pop();
             }
         }
+
+        //branching
+        // for (var i=0; i < tree.length; i++) {
+        //         let thickness = p.line.strokeWeight;
+        //         //console.log(thickness);
+
+        //         p.thickness = 2;
+        //         p.line();
+        // }
     }
 };
 
