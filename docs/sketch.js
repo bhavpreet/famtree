@@ -45,9 +45,10 @@ let sketch = function(p) {
         p.textSize(23);
 
         // Load PNGs
-        child = p.loadImage("child.png");
-        adult = p.loadImage("adult.png");
-        elder = p.loadImage("elder.png");
+        child = p.loadImage("04_young.png");
+        adult = p.loadImage("03_adult.png");
+        elder = p.loadImage("02_elder.png");
+        eldest = p.loadImage("01_eldest.png");
         // vector here stores the start point and end point
         // a vector has magnitude and direction
         var a = p.createVector (p.width/2, p.height); //startpoint
@@ -106,9 +107,13 @@ let sketch = function(p) {
             if (t.entry.age  == "Young at 💖" ) {
                 img = child;
             } else if (t.entry.age  == "Above 50" ) {
-                img = elder;
+                img = eldest;
             } else if (t.entry.age  == "30-50" ) {
-                img = child;
+                img = elder;
+            } else if (t.entry.age  == "20-30" ) {
+                img = adult;
+            } else if (t.entry.age  == "< 20"){
+                img = young;
             }
 
             if (d < scale/3 || t.entry.isNew  == true ) {
