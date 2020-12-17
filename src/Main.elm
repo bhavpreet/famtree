@@ -84,6 +84,8 @@ bottomHalf model uiElem =
         [ column
             [ centerX
             , alignBottom
+            , Background.color (rgb255 255 255 255)
+            , alpha 0.875
             ]
             [ --  el [ height (px <| model.window.height // 2) ]
               --     none

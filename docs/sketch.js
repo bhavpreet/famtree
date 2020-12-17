@@ -16,6 +16,7 @@ var treeN = [];
 var levelN = 2;
 
 var height = 400
+let addEntrySound;
 
 let sketch = function(p) {
     gp = p;
@@ -31,6 +32,8 @@ let sketch = function(p) {
     p.preload = function() {
         table = p.loadTable('https://docs.google.com/spreadsheets/d/1ugOJeRIHwUR36fp1-MawZqqw1_X29q4nrLiKM_gu9FI/gviz/tq\?tqx\=out:csv\&sheet\=Sheet1', 'csv', 'header');
         font = p.loadFont ('Good Brush.otf');
+        p.soundFormats('mp3');
+        addEntrySound = p.loadSound('doorbell-1');
     }
 
     p.windowResized = function () {
@@ -233,6 +236,10 @@ function drawBranch(entry) {
             // console.log("Updateing levelB= ", levelB);
         }
         // console.log("maxElems = ", maxElems, "levelB = ", levelB, "lenB = ", treeB.length);
+    }
+
+    if (entry.isNew == true) {
+        addEntrySound.play();
     }
     //color code name with alpha, rsvp
     //age
