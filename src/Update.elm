@@ -222,5 +222,10 @@ update msg model =
                 , Cmd.none
                 )
 
+        TreeInfoToggle ->
+            ( { model | treeInfoToggle = xor model.treeInfoToggle True }
+            , Cmd.none
+            )
+
         NoOp ->
             ( model, Cmd.none )

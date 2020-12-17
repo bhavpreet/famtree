@@ -348,3 +348,7 @@ inputAwaitResp =
     <|
         text
             "Please wait.."
+
+
+purple =
+    rgb255 93 35 234

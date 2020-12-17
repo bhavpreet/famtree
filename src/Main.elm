@@ -5,12 +5,13 @@ import Browser.Events as Events
 import Element exposing (..)
 import Element.Background as Background
 import Html exposing (Html)
+import Html.Attributes as HAttr
 import InfoPage exposing (infoPage)
 import Input exposing (..)
-import Material.IconButton as IconButton
 import Model exposing (..)
 import Sheets exposing (..)
 import Sketch exposing (sketchCanvas)
+import TreeInfo exposing (treeInfo)
 import Update exposing (update)
 
 
@@ -31,6 +32,7 @@ init flags =
       , infoOK2 = False
       , window = flags.window
       , assets = flags.assets
+      , treeInfoToggle = False
       }
     , Cmd.batch [ fetchRelations ]
     )
@@ -77,6 +79,7 @@ bottomHalf model uiElem =
     column
         [ height fill
         , width fill
+        , inFront (treeInfo model)
         ]
         [ column
             [ centerX

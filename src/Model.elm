@@ -78,6 +78,7 @@ type alias Model =
     , infoOK2 : Bool
     , window : Window
     , assets : Assets
+    , treeInfoToggle : Bool
     }
 
 
@@ -100,3 +101,4 @@ type Msg
     | ViewportChange Window
     | InfoOK
     | FocusResult (Result Dom.Error ())
+    | TreeInfoToggle
