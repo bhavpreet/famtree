@@ -22,7 +22,7 @@ inputRelatedTo model =
             [ infoButton model
             , el [ centerX ] (text "/")
             , el [ alignRight ] <|
-                backButton "Guest Of?" NoOp
+                backButton "Related to :" NoOp
             ]
         , row
             [ spacing 20

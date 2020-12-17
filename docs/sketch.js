@@ -158,14 +158,17 @@ let sketch = function(p) {
                 p.textLeading(120);
                 p.fill(255);
                 p.stroke(0);
-                // p.textAlign(p.CENTER);
-                if (t.entry.relatedTo == "Natasha") {
-                    p.textAlign(p.LEFT);
+                if (p.width > 600) {
+                    p.textAlign(p.CENTER);
+                    p.text(t.entry.name, v0.x*scale*2, v0.y*scale*2);
                 } else {
-                    p.textAlign(p.RIGHT);
+                    if (t.entry.relatedTo == "Natasha") {
+                        p.textAlign(p.LEFT);
+                    } else {
+                        p.textAlign(p.RIGHT);
+                    }
+                    p.text(t.entry.name, v0.x, v0.y * scale * 2);
                 }
-                p.text(t.entry.name, v0.x, v0.y * scale * 2);
-                // p.text(t.entry.name, v0.x*scale*2, v0.y*scale*2);
                 p.pop();
             }
         }

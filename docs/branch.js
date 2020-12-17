@@ -38,7 +38,11 @@ function Branch (begin, end, level) {
 		dir.rotate(angle);
 		//making the length shorter than prev one
 		// dir.mult(0.62);
-		dir.mult(0.62);
+		let factor = p.width
+		if (factor > 600) {
+			factor = 600;
+		}
+		dir.mult(0.42 + mapto01(factor));
 		//making a new end point for the new branch
 		var newEnd = p5.Vector.add(this.end, dir);
 		//new branch shares the previous branch's ending point
@@ -49,4 +53,19 @@ function Branch (begin, end, level) {
 		//console.log(newEnd.x, newEnd.y, leaf.x, leaf.y);
 		return b;
 	};
+}
+
+function mapto01(val) {
+	let min = 0;
+	let max = 2048;
+	return (val - min) / (max - min);
+}
+function dsigmoid(y) {
+   // return sigmoid(x) * (1 - sigmoid(x));
+	return 1/((1 - 200/y));
+}
+
+
+function sigmoid(x) {
+  return 1 / (1 + Math.exp(-x));
 }
