@@ -92,6 +92,7 @@ inputNameAgeRelation model =
                             |> TextField.setLabel (Just "Name")
                             |> TextField.setValue (Just model.name)
                             |> TextField.setOnInput UpdateName
+                            |> TextField.setAttributes [HAttr.width 10]
                         )
             , el [ width fill ] <|
                 ageDropDown model
