@@ -8,30 +8,38 @@ import Material.IconButton as IconButton
 import Model exposing (..)
 
 
+infoTreeButton : Model -> Element Msg
+infoTreeButton model =
+    if model.treeInfoToggle == False then
+        myPadding <|
+            html <|
+                IconButton.iconButton
+                    (IconButton.config |> IconButton.setOnClick TreeInfoToggle)
+                    (IconButton.icon "info_outlined")
+
+    else
+        el [] none
+
+
+myPadding : Element Msg -> Element Msg
+myPadding elem =
+    el
+        [ width (fill |> maximum 500)
+        , centerX
+
+        --, Background.color (rgb255 0 0 0)
+        ]
+    <|
+        el
+            [ alignRight
+            , padding 40
+            ]
+            elem
+
+
 treeInfo : Model -> Element Msg
 treeInfo model =
     let
-        myPadding elem =
-            el
-                [ width (fill |> maximum 500)
-                , centerX
-
-                --, Background.color (rgb255 0 0 0)
-                ]
-            <|
-                el
-                    [ alignRight
-                    , padding 40
-                    ]
-                    elem
-
-        infoButton =
-            myPadding <|
-                html <|
-                    IconButton.iconButton
-                        (IconButton.config |> IconButton.setOnClick TreeInfoToggle)
-                        (IconButton.icon "info_outlined")
-
         xButton =
             myPadding <|
                 html <|
@@ -40,7 +48,7 @@ treeInfo model =
                         (IconButton.icon "highlight_off")
     in
     if model.treeInfoToggle == False then
-        infoButton
+        el [] none
 
     else
         column

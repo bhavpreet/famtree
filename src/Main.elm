@@ -11,7 +11,7 @@ import Input exposing (..)
 import Model exposing (..)
 import Sheets exposing (..)
 import Sketch exposing (sketchCanvas)
-import TreeInfo exposing (treeInfo)
+import TreeInfo exposing (infoTreeButton, treeInfo)
 import Update exposing (update)
 
 
@@ -81,17 +81,14 @@ buttonLayout model uiElem =
         , width fill
         , inFront <| treeInfo model
         ]
-        [ column
+        [ infoTreeButton model
+        , column
             [ centerX
             , alignBottom
             , Background.color (rgb255 255 255 255)
             , alpha 0.875
             ]
-            [ --  el [ height (px <| model.window.height // 2) ]
-              --     none
-              -- , el [ padding 20 ] none
-              -- ,
-              el
+            [ el
                 [ height fill
                 , width fill
                 ]

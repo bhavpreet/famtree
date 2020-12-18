@@ -33,7 +33,7 @@ let sketch = function(p) {
         table = p.loadTable('https://docs.google.com/spreadsheets/d/1ugOJeRIHwUR36fp1-MawZqqw1_X29q4nrLiKM_gu9FI/gviz/tq\?tqx\=out:csv\&sheet\=Sheet1', 'csv', 'header');
         font = p.loadFont ('Good Brush.otf');
         p.soundFormats('mp3');
-        addEntrySound = p.loadSound('doorbell-1');
+        addEntrySound = p.loadSound('button-37');
     }
 
     p.windowResized = function () {
