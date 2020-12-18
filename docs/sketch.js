@@ -57,10 +57,10 @@ let sketch = function(p) {
         var b = p.createVector (p.width/2, p.height - (p.height / 4.5)); //endpoint
         var root = new Branch (a, b, 0); //starting first branch line |
         tree[0] = root; //storing the root in the tree array
-        tree.push(tree[0].branch(p, -p.PI/3.5, 1));
+        tree.push(tree[0].branch(p, -p.PI/4.5, 1));
         tree[tree.length-1].entry = makeEntry(0);
         treeN.push(tree[tree.length-1]);
-        tree.push(tree[0].branch(p, p.PI/5.5, 1));
+        tree.push(tree[0].branch(p, p.PI/4.5, 1));
         tree[tree.length-1].entry = makeEntry(1);
         treeB.push(tree[tree.length-1]);
 
@@ -203,7 +203,7 @@ function drawEvenOdd(bnTree, level, entry) {
         parent = (bnTree.length - 1) / 2;
         // console.log("parent: ", parent);
         // console.log("parent node: ", bnTree[parent]);
-        angle = -gp.PI/3.5;
+        angle = -gp.PI/4.5;
         tree.push(bnTree[parent].branch(gp, angle, level));
     } else {
         // console.log("odd");

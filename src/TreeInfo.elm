@@ -2,6 +2,7 @@ module TreeInfo exposing (..)
 
 import Element exposing (..)
 import Element.Background as Background
+import Element.Border as Border
 import Element.Font as Font
 import Html as Html exposing (Html)
 import Html.Attributes as HAttr
@@ -17,7 +18,9 @@ infoTreeButton model =
         x _ _ =
             Html.img
                 [ HAttr.src "nb_infoicon.png"
-                , HAttr.style "margin" "-0px"
+                , HAttr.style "margin" "-10px"
+                , HAttr.style "width" "35px"
+                , HAttr.style "height" "35px"
                 ]
                 []
 
@@ -66,7 +69,7 @@ treeInfo model =
                 html <|
                     IconButton.iconButton
                         (IconButton.config |> IconButton.setOnClick TreeInfoToggle)
-                        (IconButton.icon "highlight_off")
+                        (IconButton.icon "close")
     in
     if model.treeInfoToggle == False then
         el [] none
@@ -99,9 +102,9 @@ treeInfoText =
             [ paragraph []
                 [ text "A new beginning 💝" ]
             , paragraph []
-                [ text "We are initiating a new life together under the guidance of our Guru." ]
+                [ text "We are initiating a new life together under the guidance of Sri Guru Granth Sahib." ]
             , paragraph []
-                [ text """**Due to Covid and restrictions on mass gatherings, we are keeping an intimate wedding. Please rsvp under the tree. The virtual tree generates a new element with each entry. It is a reminder of two families uniting. Since we wouldn’t have an official milni, we thought of creating a space where we can virtually know each other. """ ]
+                [ text """**Due to Covid and restrictions on mass gatherings, we are keeping an intimate wedding. Please rsvp under the tree. The virtual tree generates a new element with each entry. It is a reminder of two families uniting. We thought of creating a space where we can virtually know each other. """ ]
             , paragraph []
                 [ text "Elements of the tree mapped to Age groups:"
                 ]
