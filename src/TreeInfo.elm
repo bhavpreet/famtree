@@ -132,4 +132,5 @@ treeInfoText =
                     , label = text "natbhavs@gmail.com"
                     }
                 ]
+            , el [ padding 40 ] none
             ]
