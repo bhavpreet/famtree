@@ -59,27 +59,27 @@ viewLogic model =
         infoPage model
 
     else if model.relatedTo == Nothing then
-        bottomHalf model <| inputRelatedTo model
+        buttonLayout model <| inputRelatedTo model
 
     else if model.nar == False then
-        bottomHalf model <| inputNameAgeRelation model
+        buttonLayout model <| inputNameAgeRelation model
 
     else if model.allDone == False then
-        bottomHalf model <| inputRSVP model
+        buttonLayout model <| inputRSVP model
 
     else if model.awaitResp == True then
-        bottomHalf model <| inputAwaitResp
+        buttonLayout model <| inputAwaitResp
 
     else
-        bottomHalf model <| inputEnd model
+        buttonLayout model <| inputEnd model
 
 
-bottomHalf : Model -> Element Msg -> Element Msg
-bottomHalf model uiElem =
+buttonLayout : Model -> Element Msg -> Element Msg
+buttonLayout model uiElem =
     column
         [ height fill
         , width fill
-        , inFront (treeInfo model)
+        , inFront <| treeInfo model
         ]
         [ column
             [ centerX
