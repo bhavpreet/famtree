@@ -3,6 +3,8 @@ module TreeInfo exposing (..)
 import Element exposing (..)
 import Element.Background as Background
 import Element.Font as Font
+import Html as Html exposing (Html)
+import Html.Attributes as HAttr
 import Input exposing (purple)
 import Material.IconButton as IconButton
 import Model exposing (..)
@@ -10,12 +12,31 @@ import Model exposing (..)
 
 infoTreeButton : Model -> Element Msg
 infoTreeButton model =
+    let
+        x : List (Html.Attribute Never) -> List (Html Never) -> Html Never
+        x _ _ =
+            Html.img
+                [ HAttr.src "nb_infoicon.png"
+                , HAttr.style "margin" "-0px"
+                ]
+                []
+
+        -- layout [] <|
+        --     image
+        --         []
+        --         { src = "nb_infoicon.png"
+        --         , description = "Tree info toggle button"
+        --         }
+    in
     if model.treeInfoToggle == False then
         myPadding <|
             html <|
                 IconButton.iconButton
-                    (IconButton.config |> IconButton.setOnClick TreeInfoToggle)
-                    (IconButton.icon "info_outlined")
+                    (IconButton.config
+                        |> IconButton.setOnClick TreeInfoToggle
+                    )
+                <|
+                    IconButton.customIcon x [] []
 
     else
         el [] none
