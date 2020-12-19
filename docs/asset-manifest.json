@@ -1,7 +1,7 @@
 {
   "main.css": "/static/css/main.0af5c45f.chunk.css",
-  "main.js": "/static/js/main.4ec3d25d.chunk.js",
-  "main.js.map": "/static/js/main.4ec3d25d.chunk.js.map",
+  "main.js": "/static/js/main.714645a0.chunk.js",
+  "main.js.map": "/static/js/main.714645a0.chunk.js.map",
   "runtime~main.js": "/static/js/runtime~main.1b922744.js",
   "runtime~main.js.map": "/static/js/runtime~main.1b922744.js.map",
   "vendors~main.css": "/static/css/vendors~main.9e05d1cf.chunk.css",
@@ -46,7 +46,7 @@
   "logo.svg": "/logo.svg",
   "manifest.json": "/manifest.json",
   "nb_infoicon.png": "/nb_infoicon.png",
-  "precache-manifest.37ac9c1feeecc7fd8e86b79f5c53c285.js": "/precache-manifest.37ac9c1feeecc7fd8e86b79f5c53c285.js",
+  "precache-manifest.4ae03a3bdf45aad8f618597f883e593b.js": "/precache-manifest.4ae03a3bdf45aad8f618597f883e593b.js",
   "static/media/Good Brush.19cfbd40.otf": "/static/media/Good Brush.19cfbd40.otf",
   "static/media/button-37.c5f8c924.wav": "/static/media/button-37.c5f8c924.wav",
   "static/media/invitation-footer-left-min.webp": "/static/media/invitation-footer-left-min.f4a6f9cb.webp",

@@ -6,7 +6,7 @@ import Html exposing (Html)
 import Html.Attributes as HAttr
 import InfoPage exposing (raisedButton)
 import Material.Button as Button
-import Material.IconButton as IconButton
+import Material.LayoutGrid as LayoutGrid
 import Material.Select as Select
 import Material.Select.Item as SelectItem
 import Material.TextField as TextField
@@ -69,104 +69,101 @@ inputRelatedTo model =
 
 inputNameAgeRelation : Model -> Element Msg
 inputNameAgeRelation model =
+    let
+        nameBox =
+            TextField.outlined
+                (TextField.config
+                    |> TextField.setLabel (Just "Name")
+                    |> TextField.setValue (Just model.name)
+                    |> TextField.setOnInput UpdateName
+                    |> TextField.setAttributes [HAttr.style "max-width" "200px"]
+                )
+    in
     column
         [ centerX
         , paddingXY 20 0
         , spacing 3
         ]
-        [ row [ width fill ]
+        [ row
+            [ centerX
+            ]
             [ infoButton model
             , el [ centerX ] (text "/")
             , el [ alignRight ] <|
                 backButton (backButtonStr model)
                     BackToInputRelatedTo
             ]
-        , row
-            [ width fill
-            , spacing 5
-            ]
-            [ el [ width fill ] <|
-                html <|
-                    TextField.outlined
-                        (TextField.config
-                            |> TextField.setLabel (Just "Name")
-                            |> TextField.setValue (Just model.name)
-                            |> TextField.setOnInput UpdateName
-                            |> TextField.setAttributes [HAttr.width 10]
-                        )
-            , el [ width fill ] <|
-                ageDropDown model
-            ]
-        , el [ padding 3 ] none
-        , el [ centerX ] <| relationTextOrSelect model
-        , el [ padding 5 ] none
+        , html <|
+            LayoutGrid.layoutGrid
+                [ LayoutGrid.alignMiddle
+                ]
+                [ LayoutGrid.inner
+                    [ LayoutGrid.alignMiddle ]
+                    [ LayoutGrid.cell [] [ nameBox ]
+                    , LayoutGrid.cell [] [ ageDropDown model ]
+                    , LayoutGrid.cell [] [ relationTextOrSelect model ]
+                    ]
+                ]
         , submitNAR model
         ]
 
 
-ageDropDown : Model -> Element Msg
+ageDropDown : Model -> Html Msg
 ageDropDown model =
-    html <|
+    Select.outlined
+        (Select.config
+            |> Select.setLabel (Just "Age Group")
+            |> Select.setSelected (Just model.age)
+            |> Select.setOnChange UpdateAge
+        )
+        (SelectItem.selectItem
+            (SelectItem.config { value = "" })
+            [ Html.text "" ]
+        )
+    <|
+        List.map
+            (\x ->
+                SelectItem.selectItem
+                    (SelectItem.config { value = x })
+                    [ Html.text x ]
+            )
+            ageGroup
+
+
+relationTextOrSelect : Model -> Html Msg
+relationTextOrSelect model =
+    if model.showRelationText == True then
+        TextField.outlined
+            (TextField.config
+                |> TextField.setLabel (Just "Relation")
+                |> TextField.setValue (Just <| toStr model.relation)
+                |> TextField.setOnInput UpdateRelation
+                |> TextField.setAttributes
+                    [ HAttr.id "relation-other-field" ]
+            )
+
+    else
         Select.outlined
             (Select.config
-                |> Select.setLabel (Just "Age Group")
-                |> Select.setSelected (Just model.age)
-                |> Select.setOnChange UpdateAge
+                |> Select.setLabel (Just "Relation")
+                |> Select.setSelected model.relation
+                |> Select.setOnChange UpdateRelation
             )
             (SelectItem.selectItem
                 (SelectItem.config { value = "" })
                 [ Html.text "" ]
             )
         <|
-            List.map
-                (\x ->
-                    SelectItem.selectItem
-                        (SelectItem.config { value = x })
-                        [ Html.text x ]
-                )
-                ageGroup
-
-
-relationTextOrSelect : Model -> Element Msg
-relationTextOrSelect model =
-    if model.showRelationText == True then
-        el
-            [ width fill
-            ]
-        <|
-            html <|
-                TextField.outlined
-                    (TextField.config
-                        |> TextField.setLabel (Just "Relation")
-                        |> TextField.setValue (Just <| toStr model.relation)
-                        |> TextField.setOnInput UpdateRelation
-                        |> TextField.setAttributes
-                            [ HAttr.id "relation-other-field" ]
+            SelectItem.selectItem
+                (SelectItem.config { value = "Add New" })
+                [ Html.text "Add New" ]
+                :: List.map
+                    (\x ->
+                        SelectItem.selectItem
+                            (SelectItem.config { value = x })
+                            [ Html.text x ]
                     )
-
-    else
-        html <|
-            Select.outlined
-                (Select.config
-                    |> Select.setLabel (Just "Relation")
-                    |> Select.setSelected model.relation
-                    |> Select.setOnChange UpdateRelation
-                )
-                (SelectItem.selectItem
-                    (SelectItem.config { value = "" })
-                    [ Html.text "" ]
-                )
-            <|
-                SelectItem.selectItem
-                    (SelectItem.config { value = "Add New" })
-                    [ Html.text "Add New" ]
-                    :: List.map
-                        (\x ->
-                            SelectItem.selectItem
-                                (SelectItem.config { value = x })
-                                [ Html.text x ]
-                        )
-                        model.relationsList
+                    model.relationsList
 
 
 inputRSVP : Model -> Element Msg
@@ -175,7 +172,7 @@ inputRSVP model =
         [ padding 20
         , centerX
         ]
-        [ row [ width fill ]
+        [ row []
             [ infoButton model
             , el [ centerX ] (text "/")
             , el [ alignRight ] <|
@@ -268,7 +265,7 @@ inputEnd model =
         [ padding 20
         , centerX
         ]
-        [ row [ width fill ]
+        [ row []
             [ infoButton model
             , el [ centerX ] (text "/")
             , el [ alignRight ] <|
@@ -309,8 +306,7 @@ infoButton model =
 
 
 backButtonStr model =
-    "Related to : "
-        ++ toStr model.relatedTo
+    toStr model.relatedTo
 
 
 
