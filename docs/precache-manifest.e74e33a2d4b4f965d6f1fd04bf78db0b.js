@@ -100,7 +100,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/favicon_tree.jpg"
   },
   {
-    "revision": "c636bed0a9ccbc34e243905187f64866",
+    "revision": "864c7e619056554c6247c31da3c0d934",
     "url": "/index.html"
   },
   {
@@ -152,28 +152,32 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/nb_infoicon.png"
   },
   {
-    "revision": "e309a4d6eb95acdef108",
+    "revision": "931e42e4eccba9408564",
     "url": "/static/css/main.0af5c45f.chunk.css"
   },
   {
-    "revision": "6b0cbbf35fa651b3c795",
+    "revision": "45e44043852aa6c753aa",
     "url": "/static/css/vendors~main.9e05d1cf.chunk.css"
   },
   {
-    "revision": "e309a4d6eb95acdef108",
-    "url": "/static/js/main.e309a4d6.chunk.js"
+    "revision": "931e42e4eccba9408564",
+    "url": "/static/js/main.931e42e4.chunk.js"
   },
   {
     "revision": "1b922744246c39b6bc43",
     "url": "/static/js/runtime~main.1b922744.js"
   },
   {
-    "revision": "6b0cbbf35fa651b3c795",
-    "url": "/static/js/vendors~main.6b0cbbf3.chunk.js"
+    "revision": "45e44043852aa6c753aa",
+    "url": "/static/js/vendors~main.45e44043.chunk.js"
   },
   {
     "revision": "9cbf962c74639762077dcdccd1b914c0",
     "url": "/static/media/Good Brush.19cfbd40.otf"
+  },
+  {
+    "revision": "5a5b8f33ef172e7b2e8e8950a6001b2a",
+    "url": "/static/media/button-37.c5f8c924.wav"
   },
   {
     "revision": "32f1b72e9cbb70fadd4d87c9d858529e",
