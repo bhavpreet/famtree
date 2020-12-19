@@ -5,6 +5,7 @@ import footerBgRight from "../public/invitation-footer-right-min.webp";
 import goodBrushFontFile from '../public/Good Brush.otf';
 import Branch from "./branch.js";
 import addSoundFile from "../public/button-37.wav"
+import app from "./index.js";
 //Based on Daniel Shiffman's Object Oriented tree generation
 
 //family tree forming for Nat and Bhav
@@ -28,7 +29,8 @@ let child;
 let adult;
 let elder;
 let eldest;
-let goodBrushFont
+let goodBrushFont;
+// let lastShownEntry;
 
 export default drawBranch
 
@@ -143,6 +145,32 @@ let sketch = function(p) {
 
             p.pop();
 
+            // if (d < scale/2 && t.entry.isNew  != true ) {
+            //     if (t.entry.relatedTo == "Natasha") {
+            //         p.push();
+            //         // p.fill(144,175,131);
+            //         p.fill(255);
+            //         p.stroke(0);
+            //         p.textFont(goodBrushFont);
+            //         p.textSize(20);
+            //         // p.textLeading(120);
+            //         p.textAlign(p.RIGHT);
+            //         p.text(t.entry.name, p.width/2 - 20, p.height - 40);
+            //         p.text(t.entry.relation, p.width/2 - 20, p.height - 20);
+            //         p.pop();
+            //     } else {
+            //          p.push();
+            //         p.fill(255);
+            //         p.stroke(0);
+            //         p.textFont(goodBrushFont);
+            //         p.textSize(20);
+            //         // p.textLeading(120);
+            //         p.textAlign(p.LEFT);
+            //         p.text(t.entry.name, p.width/2 + 20, p.height - 40);
+            //         p.text(t.entry.relation, p.width/2 + 20, p.height - 20);
+            //         p.pop();
+            //     }
+            // }
         }
 
         // text
@@ -177,19 +205,29 @@ let sketch = function(p) {
                 p.textLeading(120);
                 p.fill(255);
                 p.stroke(0);
-                if (p.width > 600) {
-                    p.textAlign(p.CENTER);
-                    p.text(t.entry.name, v0.x*scale*2, v0.y*scale*2);
-                } else {
-                    // if (t.entry.relatedTo == "Natasha") {
-                    //     p.textAlign(p.LEFT);
-                    // } else {
-                    //     p.textAlign(p.RIGHT);
-                    // }
-                    p.textAlign(p.CENTER);
-                    p.text(t.entry.name, v0.x, v0.y * scale * 2);
-                }
+                // if (p.width > 600) {
+                p.textAlign(p.CENTER);
+                p.text(t.entry.name, 0, -1 * (scale + 50));
+                p.text(t.entry.relation, 0, -1 * (scale + 30));
+                // } else {
+                //     // if (t.entry.relatedTo == "Natasha") {
+                //     //     p.textAlign(p.LEFT);
+                //     // } else {
+                //     //     p.textAlign(p.RIGHT);
+                //     // }
+                //     p.textAlign(p.CENTER);
+                //     p.text(t.entry.relation, 0, scale + 100 );
+                //     p.text(t.entry.name, 0, scale + 80);
+
+                //     // p.text(t.entry.name, v0.x*scale, v0.y * scale);
+                //     // p.text(t.entry.relation, -v0.x*scale, -v0.y*scale);
+                // }
                 p.pop();
+                if (!t.entry.isNew // && t.entry != lastShownEntry
+                   ) {
+                    // app.ports.showRelation.send(t.entry);
+                    // lastShownEntry = t.entry;
+                }
             }
         }
 		// p.noLoop();

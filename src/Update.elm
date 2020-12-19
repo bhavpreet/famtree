@@ -2,6 +2,8 @@ module Update exposing (update)
 
 import Browser.Dom as Dom
 import Csv as Csv
+import Json.Decode as D
+import Json.Encode as E
 import Model exposing (..)
 import Sheets exposing (..)
 import Sketch exposing (..)
@@ -226,6 +228,26 @@ update msg model =
             ( { model | treeInfoToggle = xor model.treeInfoToggle True }
             , Cmd.none
             )
+
+        ShowRelation value ->
+            let
+                getEntry : E.Value -> Entry
+                getEntry val =
+                    case D.decodeValue Sketch.decoder val of
+                        Ok entry ->
+                            entry
+
+                        Err _ ->
+                            { name = ""
+                            , age = ""
+                            , relation = ""
+                            , relatedTo = ""
+                            , rsvp = ""
+                            }
+            in
+            ( { model
+                  | toShowEntry = getEntry value }
+            , Cmd.none )
 
         NoOp ->
             ( model, Cmd.none )

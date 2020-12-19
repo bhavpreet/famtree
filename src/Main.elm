@@ -10,7 +10,7 @@ import InfoPage exposing (infoPage)
 import Input exposing (..)
 import Model exposing (..)
 import Sheets exposing (..)
-import Sketch exposing (sketchCanvas)
+import Sketch exposing (showRelation, sketchCanvas)
 import TreeInfo exposing (infoTreeButton, treeInfo)
 import Update exposing (update)
 
@@ -33,6 +33,13 @@ init flags =
       , window = flags.window
       , assets = flags.assets
       , treeInfoToggle = False
+      , toShowEntry =
+            { name = ""
+            , age = ""
+            , relation = ""
+            , relatedTo = ""
+            , rsvp = ""
+            }
       }
     , Cmd.batch [ fetchRelations ]
     )
@@ -76,6 +83,19 @@ viewLogic model =
 
 buttonLayout : Model -> Element Msg -> Element Msg
 buttonLayout model uiElem =
+    let
+        showRelation : Entry -> Element Msg
+        showRelation entry =
+            let
+                alignment =
+                    if entry.relatedTo == "Natasha" then
+                        alignLeft
+
+                    else
+                        alignRight
+            in
+            el [ alignment ] (text entry.relation)
+    in
     column
         [ height fill
         , width fill
@@ -88,7 +108,8 @@ buttonLayout model uiElem =
             , Background.color (rgb255 255 255 255)
             , alpha 0.875
             ]
-            [ el
+            [ showRelation model.toShowEntry
+            , el
                 [ height fill
                 , width fill
                 ]
@@ -107,9 +128,12 @@ buttonLayout model uiElem =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Events.onResize <|
-        \width height ->
-            ViewportChange { width = width, height = height }
+    Sub.batch
+        [ Events.onResize <|
+            \width height ->
+                ViewportChange { width = width, height = height }
+        , showRelation ShowRelation
+        ]
 
 
 

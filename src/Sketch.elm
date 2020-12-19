@@ -5,6 +5,7 @@ port module Sketch exposing (..)
 import Element exposing (..)
 import Html.Attributes as HAttr
 import Json.Encode as E
+import Json.Decode as D
 import Model exposing (..)
 import Sheets exposing (toInt, toStr)
 
@@ -14,7 +15,7 @@ import Sheets exposing (toInt, toStr)
 
 
 port drawBranch : E.Value -> Cmd msg
-
+port showRelation : (E.Value -> msg) -> Sub msg
 
 sketchCanvas : Model -> Element Msg
 sketchCanvas model =
@@ -57,8 +58,11 @@ encode model =
 
 
 
--- decoder : D.Decoder Model
--- decoder =
---   D.map2 Model
---     (D.field "name" D.string)
---     (D.field "email" D.string)
+decoder : D.Decoder Entry
+decoder =
+  D.map5 Entry
+    (D.field "name" D.string)
+    (D.field "age" D.string)
+    (D.field "relation" D.string)
+    (D.field "relatedTo" D.string)
+    (D.field "rsvp" D.string)

@@ -2,6 +2,7 @@ module Model exposing (..)
 
 import Browser.Dom as Dom
 import Http as Http
+import Json.Encode as E
 
 
 
@@ -79,6 +80,16 @@ type alias Model =
     , window : Window
     , assets : Assets
     , treeInfoToggle : Bool
+    , toShowEntry : Entry
+    }
+
+
+type alias Entry =
+    { name : String
+    , age : String
+    , relation : String
+    , relatedTo : String
+    , rsvp : String
     }
 
 
@@ -102,3 +113,4 @@ type Msg
     | InfoOK
     | FocusResult (Result Dom.Error ())
     | TreeInfoToggle
+    | ShowRelation E.Value

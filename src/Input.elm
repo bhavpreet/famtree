@@ -76,7 +76,7 @@ inputNameAgeRelation model =
                     |> TextField.setLabel (Just "Name")
                     |> TextField.setValue (Just model.name)
                     |> TextField.setOnInput UpdateName
-                    |> TextField.setAttributes [HAttr.style "max-width" "200px"]
+                    |> TextField.setAttributes [ HAttr.style "max-width" "200px" ]
                 )
     in
     column
@@ -168,11 +168,32 @@ relationTextOrSelect model =
 
 inputRSVP : Model -> Element Msg
 inputRSVP model =
+    let
+        rsvpDropdown =
+            Select.outlined
+                (Select.config
+                    |> Select.setLabel (Just "RSVP")
+                    |> Select.setSelected model.rsvp
+                    |> Select.setOnChange UpdateRSVP
+                )
+                (SelectItem.selectItem
+                    (SelectItem.config { value = "" })
+                    [ Html.text "" ]
+                )
+            <|
+                List.map
+                    (\x ->
+                        SelectItem.selectItem
+                            (SelectItem.config { value = x })
+                            [ Html.text x ]
+                    )
+                    rsvpList
+    in
     column
         [ padding 20
         , centerX
         ]
-        [ row []
+        [ row [ centerX ]
             [ infoButton model
             , el [ centerX ] (text "/")
             , el [ alignRight ] <|
@@ -184,25 +205,7 @@ inputRSVP model =
             , padding 20
             ]
           <|
-            html <|
-                Select.outlined
-                    (Select.config
-                        |> Select.setLabel (Just "RSVP")
-                        |> Select.setSelected model.rsvp
-                        |> Select.setOnChange UpdateRSVP
-                    )
-                    (SelectItem.selectItem
-                        (SelectItem.config { value = "" })
-                        [ Html.text "" ]
-                    )
-                <|
-                    List.map
-                        (\x ->
-                            SelectItem.selectItem
-                                (SelectItem.config { value = x })
-                                [ Html.text x ]
-                        )
-                        rsvpList
+            html <| rsvpDropdown
         , submitRSVP model
         ]
 
