@@ -33,13 +33,29 @@ infoTreeButton model =
     in
     if model.treeInfoToggle == False then
         myPadding <|
-            html <|
-                IconButton.iconButton
-                    (IconButton.config
-                        |> IconButton.setOnClick TreeInfoToggle
-                    )
-                <|
-                    IconButton.customIcon x [] []
+            column []
+                [ el
+                    [ Border.rounded 50
+                    -- , Border.color (rgb255 93 35 234)
+                    , Border.width 1
+                    ]
+                  <|
+                    html <|
+                        IconButton.iconButton
+                            (IconButton.config
+                                |> IconButton.setOnClick TreeInfoToggle
+                            )
+                        <|
+                            IconButton.customIcon x [] []
+
+                -- , el
+                --     [ centerX
+                --     , Font.size 13
+                --     , Font.color (rgb255 93 35 234)
+                --     -- , Border.color (rgb255 93 35 234)
+                --     ]
+                --     (text "about")
+                ]
 
     else
         el [] none
@@ -66,10 +82,16 @@ treeInfo model =
     let
         xButton =
             myPadding <|
-                html <|
-                    IconButton.iconButton
-                        (IconButton.config |> IconButton.setOnClick TreeInfoToggle)
-                        (IconButton.icon "close")
+                el
+                    [ Border.rounded 50
+                    -- , Border.color (rgb255 93 35 234)
+                    , Border.width 1
+                    ]
+                <|
+                    html <|
+                        IconButton.iconButton
+                            (IconButton.config |> IconButton.setOnClick TreeInfoToggle)
+                            (IconButton.icon "close")
     in
     if model.treeInfoToggle == False then
         el [] none
