@@ -94,13 +94,13 @@ gurmukhiHeader w h =
             [ el [ Font.size 30 ] (text "☬")
             , paragraph
                 [ centerX ]
-                [ text "ੴ ਸਤਗੁਰ ਪ੍ਰਸਾਦਿ ।।" ]
+                [ text "ੴ ਸਤਿਗੁਰ ਪ੍ਰਸਾਦਿ ।।" ]
             , el [ Font.size 30 ] (text "☬")
             ]
         , el [ padding 3 ] none
         , paragraph
             [ centerX ]
-            [ text "ਨਾਨਕ ਸਤਗੁਰੁ ਤਿਨਾ ਮਿਲਾਇਆ" ]
+            [ text "ਨਾਨਕ ਸਤਿਗੁਰੁ ਤਿਨਾ ਮਿਲਾਇਆ" ]
         , paragraph [ centerX ]
             [ text "ਜਿਨਾ ਧੁਰੇ ਪਇਆ ਸੰਜੋਗੁ ।।" ]
         , el [ height (px <| h // 74) ] none
