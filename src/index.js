@@ -3,9 +3,9 @@ import { Elm } from './Main.elm';
 import * as serviceWorker from './serviceWorker';
 
 // Images
-import headerBgRight from "../public/invitation-header-right-min.webp"
-import footerBgLeft from "../public/invitation-footer-left-min.webp"
-import footerBgRight from "../public/invitation-footer-right-min.webp"
+import headerBgRight from "../public/invitation-header-right-min.png"
+import footerBgLeft from "../public/invitation-footer-left-min.png"
+import footerBgRight from "../public/invitation-footer-right-min.png"
 
 require("material-components-web-elm/dist/material-components-web-elm.js");
 require("material-components-web-elm/dist/material-components-web-elm.css");
