@@ -98,6 +98,7 @@ let sketch = function(p) {
         }
 
         // flowers
+        let numNew = 0;
         for (var i=1; i < tree.length; i++) {
             let scale = 35;
             t = tree[i];
@@ -139,6 +140,10 @@ let sketch = function(p) {
             let d = p.dist(p.mouseX, p.mouseY, v0.x*scale*0.75 + t.end.x, v0.y*scale*0.75 + t.end.y);
             if (d < scale/2 || t.entry.isNew  == true ) {
                 p.image(img, 0, 0, scale * 2.1, scale * 2.1);
+                if (t.entry.isNew == true) {
+                    numNew++;
+                }
+                    
             } else {
                 p.image(img, 0, 0, scale, scale);
             }
@@ -174,10 +179,10 @@ let sketch = function(p) {
         }
 
         // text
+        let textStack = [];
+        let scale = 35;
         for (var i=1; i < tree.length; i++) {
-            let scale = 35;
             let t = tree[i];
-
             let dir = p5.Vector.sub(t.end, t.begin);
 
             let v0 = p.createVector(dir.x, dir.y);
@@ -194,42 +199,93 @@ let sketch = function(p) {
             let d = p.dist(p.mouseX, p.mouseY, v0.x*scale*0.75 + t.end.x, v0.y*scale*0.75 + t.end.y);
             //console.log (dir.x);
             if (d < scale/2 || t.entry.isNew) {
-                p.push();
-                p.translate(t.begin.x, t.begin.y);
-                p.translate(dir);
-                p.fill(0);
-                //p.textAlign(p.CENTER);
-                p.textSize(18);
-                // p.noStroke();
-                p.textFont(goodBrushFont);
-                p.textLeading(120);
-                p.fill(255);
-                p.stroke(0);
-                // if (p.width > 600) {
-                p.textAlign(p.CENTER);
-                p.text(t.entry.name, 0, -1 * (scale + 50));
-                p.text(t.entry.relation, 0, -1 * (scale + 30));
-                // } else {
-                //     // if (t.entry.relatedTo == "Natasha") {
-                //     //     p.textAlign(p.LEFT);
-                //     // } else {
-                //     //     p.textAlign(p.RIGHT);
-                //     // }
-                //     p.textAlign(p.CENTER);
-                //     p.text(t.entry.relation, 0, scale + 100 );
-                //     p.text(t.entry.name, 0, scale + 80);
-
-                //     // p.text(t.entry.name, v0.x*scale, v0.y * scale);
-                //     // p.text(t.entry.relation, -v0.x*scale, -v0.y*scale);
-                // }
-                p.pop();
-                if (!t.entry.isNew // && t.entry != lastShownEntry
-                   ) {
-                    // app.ports.showRelation.send(t.entry);
-                    // lastShownEntry = t.entry;
-                }
+                textStack.push(t);
             }
         }
+
+        if (textStack.length > 0) {
+            let lines = "";
+            let maxLength = textStack.length;
+            if (numNew != textStack.length) {
+               maxLength -= numNew; 
+            }
+            for (let i = 0; i < maxLength; i++) {
+                let t = textStack[i];
+                lines = lines + t.entry.name + "  / " + t.entry.relation + "\n"
+            }
+            let v = textStack[0].end;
+            p.stroke(0);
+            p.fill(255);
+            p.textLeading(20);
+            p.textFont(goodBrushFont);
+            p.textSize(16);
+            if (p.width < 600) {
+                if (textStack[0].entry.relatedTo == "Natasha") {
+                    p.textAlign(p.LEFT); 
+                } else {
+                    p.textAlign(p.RIGHT); 
+                }
+            } else {
+                 if (textStack[0].entry.relatedTo == "Natasha") {
+                    p.textAlign(p.RIGHT); 
+                } else {
+                    p.textAlign(p.LEFT); 
+                }
+            }
+            p.text(lines, v.x, v.y);
+        }
+        
+        // if (textStack.length > 0) {
+        //     p.push();
+        //     p.translate(textStack[0].end.x, textStack[0].end.y);
+        //     p.angleMode(p.DEGREES);
+        //     let a = 225;
+        //     p.textAlign(p.RIGHT);
+        //     if (textStack[0].entry.relatedTo == "Natasha") {
+        //         a = 270 + 25;
+        //         p.textAlign(p.LEFT);
+        //     }
+        //     for (let i = 0; i < textStack.length; i++, a += 360/textStack.length) {
+        //         t = textStack[i];
+        //         // p.translate(dir);
+        //         p.fill(0);
+        //         //p.textAlign(p.CENTER);
+        //         p.textSize(18);
+        //         // p.noStroke();
+        //         p.textFont(goodBrushFont);
+        //         p.textLeading(120);
+        //         p.fill(255);
+        //         p.stroke(0);
+        //         // p.rotate(selectedEntryAngle++);
+        //         // if (p.width > 600) {
+        //         let rad = 30;
+        //         let x = 0 + p.cos(a) * rad;
+        //         let y = 0 + p.sin(a) * rad;
+        //         p.push();
+        //         p.translate(x, y);
+        //         // p.text(t.entry.name, 0, -1 * (scale + 50));
+        //         // p.text(t.entry.relation, 0, -1 * (scale + 30));
+        //         p.text(t.entry.name, 0, 0);
+        //         // p.text(t.entry.relation, 0, 20);
+        //         p.pop();
+        //         // } else {
+        //         //     // if (t.entry.relatedTo == "Natasha") {
+        //         //     //     p.textAlign(p.LEFT);
+        //         //     // } else {
+        //         //     //     p.textAlign(p.RIGHT);
+        //         //     // }
+        //         //     p.textAlign(p.CENTER);
+        //         //     p.text(t.entry.relation, 0, scale + 100 );
+        //         //     p.text(t.entry.name, 0, scale + 80);
+
+        //         //     // p.text(t.entry.name, v0.x*scale, v0.y * scale);
+        //         //     // p.text(t.entry.relation, -v0.x*scale, -v0.y*scale);
+        //         // }
+        //     }
+        //     textStack = [];
+        //     p.angleMode(p.RADIANS);
+        //     p.pop();
+        // }
 		// p.noLoop();
     }
 };
@@ -238,17 +294,17 @@ new p5(sketch, 'sketchCanvas');
 
 // draw an arrow for a vector at a given base position
 function drawArrow(base, vec, myColor) {
-  gp.push();
-  gp.stroke(myColor);
-  gp.strokeWeight(3);
-  gp.fill(myColor);
-  gp.translate(base.x, base.y);
-  gp.line(0, 0, vec.x, vec.y);
-  gp.rotate(vec.heading());
-  let arrowSize = 7;
-  gp.translate(vec.mag() - arrowSize, 0);
-  gp.triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
-  gp.pop();
+    gp.push();
+    gp.stroke(myColor);
+    gp.strokeWeight(3);
+    gp.fill(myColor);
+    gp.translate(base.x, base.y);
+    gp.line(0, 0, vec.x, vec.y);
+    gp.rotate(vec.heading());
+    let arrowSize = 7;
+    gp.translate(vec.mag() - arrowSize, 0);
+    gp.triangle(0, arrowSize / 2, 0, -arrowSize / 2, arrowSize, 0);
+    gp.pop();
 }
 
 function drawEvenOdd(bnTree, level, entry) {
