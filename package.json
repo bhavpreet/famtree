@@ -1,0 +1,28 @@
+{
+  "name": "famtree",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bhavpreet/famtree.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bhavpreet/famtree/issues"
+  },
+  "homepage": "https://github.com/bhavpreet/famtree#readme",
+  "dependencies": {
+    "material-components-web": "^6.0.0",
+    "material-components-web-elm": "^6.0.0",
+    "p5": "^1.2.0"
+  }
+}
