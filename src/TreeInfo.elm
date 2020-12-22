@@ -36,6 +36,7 @@ infoTreeButton model =
             column []
                 [ el
                     [ Border.rounded 50
+
                     -- , Border.color (rgb255 93 35 234)
                     , Border.width 1
                     ]
@@ -84,6 +85,7 @@ treeInfo model =
             myPadding <|
                 el
                     [ Border.rounded 50
+
                     -- , Border.color (rgb255 93 35 234)
                     , Border.width 1
                     ]
@@ -103,12 +105,12 @@ treeInfo model =
             , alpha 0.875
             ]
             [ xButton
-            , treeInfoText
+            , treeInfoText model
             ]
 
 
-treeInfoText : Element Msg
-treeInfoText =
+treeInfoText : Model -> Element Msg
+treeInfoText model =
     el
         [ centerX
         , paddingXY 10 0
@@ -138,7 +140,7 @@ treeInfoText =
                     [ centerX
                     ]
                     [ image [ width (px 27) ]
-                        { src = "01_eldest-min.png"
+                        { src = model.assets.eldest
                         , description = "eldest"
                         }
                     , text " >50 years of age"
@@ -147,7 +149,7 @@ treeInfoText =
                     [ centerX
                     ]
                     [ image [ width (px 25) ]
-                        { src = "02_elder-min.png"
+                        { src = model.assets.elder
                         , description = "elder"
                         }
                     , text "30-50 years of age"
@@ -156,7 +158,7 @@ treeInfoText =
                     [ centerX
                     ]
                     [ image [ width (px 27) ]
-                        { src = "03_adult-min.png"
+                        { src = model.assets.adult
                         , description = "adult"
                         }
                     , text "20-30 years of age"
@@ -165,7 +167,7 @@ treeInfoText =
                     [ centerX
                     ]
                     [ image [ width (px 25) ]
-                        { src = "04_young-min.png"
+                        { src = model.assets.child
                         , description = "child"
                         }
                     , text "<20 years of age"

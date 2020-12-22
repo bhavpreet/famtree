@@ -50,6 +50,10 @@ type alias Assets =
     { headerBgRight : String
     , footerBgLeft : String
     , footerBgRight : String
+    , eldest : String
+    , elder : String
+    , adult : String
+    , child : String
     }
 
 

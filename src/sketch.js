@@ -1,5 +1,4 @@
 import p5 from 'p5';
-
 import footerBgLeft from "../public/invitation-footer-left-min.webp";
 import footerBgRight from "../public/invitation-footer-right-min.webp";
 import goodBrushFontFile from '../public/Good Brush.otf';
